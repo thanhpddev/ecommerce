@@ -1,17 +1,17 @@
 import React from "react";
 import { Button, Checkbox, Divider, Form, Input } from "antd";
 import { Link } from "react-router-dom";
-// import "./register.scss";
-
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+import "./register.scss";
 
 const RegisterPage = () => {
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <div className="register-page">
       <main className="main">
@@ -67,6 +67,7 @@ const RegisterPage = () => {
                   {
                     required: true,
                     message: "Số điện thoại không được để trống!",
+                    pattern: new RegExp(/^[0-9]+$/),
                   },
                 ]}
               >
@@ -76,9 +77,9 @@ const RegisterPage = () => {
               <Form.Item
               // wrapperCol={{ offset: 6, span: 16 }}
               >
-                {/* <Button type="primary" htmlType="submit" loading={isSubmit}>
+                <Button type="primary" htmlType="submit" loading={true}>
                   Đăng ký
-                </Button> */}
+                </Button>
               </Form.Item>
               <Divider>Or</Divider>
               <p className="text text-normal">
