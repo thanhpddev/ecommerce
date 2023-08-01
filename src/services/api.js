@@ -16,3 +16,7 @@ export const callLogin = (username, password, delay) => {
     delay,
   });
 };
+
+export const callFetchAccount = () => {
+  return axios.get("/api/v1/auth/account");
+};

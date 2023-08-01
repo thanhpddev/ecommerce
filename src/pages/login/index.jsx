@@ -5,10 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { callLogin } from "../../services/api";
 
 import "./login.scss";
+import { useDispatch } from "react-redux";
+import { doLoginAction } from "../../redux/account/accountSlice";
 
 const LoginPage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const onFinish = async (values) => {
     // console.log("Success:", values);
@@ -19,6 +23,7 @@ const LoginPage = () => {
     setIsSubmit(false);
     if (res?.data) {
       localStorage.setItem("access_token", res.data.access_token);
+      dispatch(doLoginAction(res.data.user));
       message.success("Đăng nhập tài khoản thành công!");
       navigate("/");
       // console.log("res:", res.data.user);
