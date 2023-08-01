@@ -18,9 +18,10 @@ const LoginPage = () => {
     const res = await callLogin(username, password, 1500);
     setIsSubmit(false);
     if (res?.data) {
+      localStorage.setItem("access_token", res.data.access_token);
       message.success("Đăng nhập tài khoản thành công!");
       navigate("/");
-      console.log("res:", res.data.user);
+      // console.log("res:", res.data.user);
     } else {
       notification.error({
         message: `Có lỗi xảy ra`,
