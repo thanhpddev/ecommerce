@@ -9,8 +9,10 @@ import {
   notification,
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import "./register.scss";
+
 import { callRegister } from "../../services/api";
+
+import "./register.scss";
 
 const RegisterPage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
