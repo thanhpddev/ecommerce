@@ -16,12 +16,28 @@ import BookPage from "./pages/book";
 import AdminPage from "./pages/admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+import "./style.scss";
+
 const Layout = () => {
   return (
     <div className="layout-app">
       <Header />
       <Outlet />
       <Footer />
+    </div>
+  );
+};
+
+const LayoutAdmin = () => {
+  const isAdminRoute = window.location.pathname.startsWith("/admin");
+  const user = useSelector((state) => state.account.user);
+  const userRole = user.role;
+
+  return (
+    <div className="layout-app">
+      {isAdminRoute && userRole === "ADMIN" && <Header />}
+      <Outlet />
+      {isAdminRoute && userRole === "ADMIN" && <Footer />}
     </div>
   );
 };
@@ -33,7 +49,11 @@ export default function App() {
   console.log("isAuthenticated ", isAuthenticated);
 
   const getAccount = async () => {
-    if (window.location.pathname === "/login") return;
+    if (
+      window.location.pathname === "/login" ||
+      window.location.pathname === "/register"
+    )
+      return;
     const res = await callFetchAccount();
 
     if (res && res.data) {
@@ -60,7 +80,7 @@ export default function App() {
 
     {
       path: "/admin",
-      element: <Layout />,
+      element: <LayoutAdmin />,
       errorElement: <NotFound />,
       children: [
         {
@@ -94,7 +114,10 @@ export default function App() {
 
   return (
     <>
-      {isAuthenticated === true || window.location.pathname === "/login" ? (
+      {isAuthenticated === true ||
+      window.location.pathname === "/login" ||
+      window.location.pathname === "/register" ||
+      window.location.pathname === "/" ? (
         <RouterProvider router={router} />
       ) : (
         <Loading />
