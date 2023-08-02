@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import BookPage from "./pages/book";
+import ContactPage from "./pages/contact";
 import LoginPage from "./pages/login";
-import Home from "./components/Home";
+import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ContactPage from "./pages/contact";
+import Home from "./components/Home";
 import RegisterPage from "./pages/register";
 import { callFetchAccount } from "./services/api";
 import { useDispatch, useSelector } from "react-redux";
 import { doGetAccountAction } from "./redux/account/accountSlice";
 import Loading from "./components/Loading";
 import NotFound from "./components/NotFound";
-import BookPage from "./pages/book";
 import AdminPage from "./pages/admin";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-import "./style.scss";
+import LayoutAdmin from "./components/Admin/LayoutAdmin";
+import "./styles/reset.scss";
 
 const Layout = () => {
   return (
@@ -28,25 +28,9 @@ const Layout = () => {
   );
 };
 
-const LayoutAdmin = () => {
-  const isAdminRoute = window.location.pathname.startsWith("/admin");
-  const user = useSelector((state) => state.account.user);
-  const userRole = user.role;
-
-  return (
-    <div className="layout-app">
-      {isAdminRoute && userRole === "ADMIN" && <Header />}
-      <Outlet />
-      {isAdminRoute && userRole === "ADMIN" && <Footer />}
-    </div>
-  );
-};
-
 export default function App() {
   const dispatch = useDispatch();
-
-  const isAuthenticated = useSelector((state) => state.account.isAuthenticated);
-  console.log("isAuthenticated ", isAuthenticated);
+  const isLoading = useSelector((state) => state.account.isLoading);
 
   const getAccount = async () => {
     if (
@@ -54,12 +38,13 @@ export default function App() {
       window.location.pathname === "/register"
     )
       return;
-    const res = await callFetchAccount();
 
+    const res = await callFetchAccount();
     if (res && res.data) {
       dispatch(doGetAccountAction(res.data));
     }
   };
+
   useEffect(() => {
     getAccount();
   }, []);
@@ -74,6 +59,10 @@ export default function App() {
         {
           path: "contact",
           element: <ContactPage />,
+        },
+        {
+          path: "book",
+          element: <BookPage />,
         },
       ],
     },
@@ -106,6 +95,7 @@ export default function App() {
       path: "/login",
       element: <LoginPage />,
     },
+
     {
       path: "/register",
       element: <RegisterPage />,
@@ -114,7 +104,7 @@ export default function App() {
 
   return (
     <>
-      {isAuthenticated === true ||
+      {isLoading === false ||
       window.location.pathname === "/login" ||
       window.location.pathname === "/register" ||
       window.location.pathname === "/" ? (
