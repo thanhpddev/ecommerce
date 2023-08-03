@@ -19,8 +19,11 @@ const UserTable = () => {
     fetchUser();
   }, [current, pageSize]);
 
-  const fetchUser = async () => {
-    const query = `current=${current}&pageSize=${pageSize}`;
+  const fetchUser = async (searchFilter) => {
+    let query = `current=${current}&pageSize=${pageSize}`;
+    if (searchFilter) {
+      query += `&${searchFilter}`;
+    }
     const res = await callFetchListUser(query);
     if (res && res.data) {
       setListUser(res.data.result);
@@ -62,7 +65,7 @@ const UserTable = () => {
   ];
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("pagination ", pagination, filters, sorter, extra);
+    // console.log("pagination ", pagination, filters, sorter, extra);
     if (pagination && pagination.current !== current) {
       localStorage.setItem("pagination_current", pagination.current);
       setCurrent(pagination.current);
@@ -74,11 +77,16 @@ const UserTable = () => {
     }
   };
 
+  const handleSearch = (query) => {
+    console.log("query ", query);
+    fetchUser(query);
+  };
+
   return (
     <>
       <Row gutter={[20, 20]}>
         <Col span={24}>
-          <InputSearch />
+          <InputSearch handleSearch={handleSearch} />
         </Col>
         <Col span={24}>
           <Table
