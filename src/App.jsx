@@ -84,7 +84,6 @@ export default function App() {
         },
         {
           path: "user",
-          element: <InputSearch />,
           element: <UserTable />,
         },
         {
