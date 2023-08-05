@@ -7,22 +7,22 @@ import { callFetchListUser } from "../../../services/api";
 
 const UserTable = () => {
   const [listUser, setListUser] = useState([]);
-  const [current, setCurrent] = useState(
-    +localStorage.getItem("pagination_current") ?? 1
-  );
-  const [pageSize, setPageSize] = useState(
-    +localStorage.getItem("pagination_pageSize") ?? 2
-  );
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(2);
   const [total, setTotal] = useState(0);
+  const [sortQuery, setSortQuery] = useState("");
 
   useEffect(() => {
     fetchUser();
-  }, [current, pageSize]);
+  }, [current, pageSize, sortQuery]);
 
   const fetchUser = async (searchFilter) => {
     let query = `current=${current}&pageSize=${pageSize}`;
     if (searchFilter) {
       query += `&${searchFilter}`;
+    }
+    if (sortQuery) {
+      query += `&sort=${sortQuery}`;
     }
     const res = await callFetchListUser(query);
     if (res && res.data) {
@@ -66,19 +66,26 @@ const UserTable = () => {
 
   const onChange = (pagination, filters, sorter, extra) => {
     // console.log("pagination ", pagination, filters, sorter, extra);
+
     if (pagination && pagination.current !== current) {
-      localStorage.setItem("pagination_current", pagination.current);
       setCurrent(pagination.current);
     }
     if (pagination && pagination.pageSize !== pageSize) {
-      localStorage.setItem("pagination_pageSize", pagination.pageSize);
       setPageSize(pagination.pageSize);
       //   setCurrent(1);
+    }
+    //handlesort
+    if (sorter && sorter.field) {
+      setSortQuery(
+        sorter.order === "ascend" ? sorter.field : `-${sorter.field}`
+      );
+    } else {
+      setSortQuery("");
     }
   };
 
   const handleSearch = (query) => {
-    console.log("query ", query);
+    // console.log("query ", query);
     fetchUser(query);
   };
 
@@ -87,6 +94,11 @@ const UserTable = () => {
       <Row gutter={[20, 20]}>
         <Col span={24}>
           <InputSearch handleSearch={handleSearch} />
+          {/* <InputSearch
+            handleSearch={(query) => {
+              fetchUser(query);
+            }}
+          /> */}
         </Col>
         <Col span={24}>
           <Table
