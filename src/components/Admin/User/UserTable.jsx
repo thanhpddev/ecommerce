@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Row, Col } from "antd";
 import InputSearch from "./InputSearch";
 import { callFetchListUser } from "../../../services/api";
+import ViewUserDetail from "./ViewUserDetail";
 
 // https://stackblitz.com/run?file=demo.tsx
 
@@ -31,11 +32,31 @@ const UserTable = () => {
     }
   };
 
+  //show detail user | Drawer
+  const [openViewDetail, setOpenViewDetail] = useState(false);
+  const [dataViewDetail, setDataViewDetail] = useState({});
+  const closeViewDetail = () => {
+    setOpenViewDetail(false);
+  };
   const columns = [
     {
       title: "Id",
       dataIndex: "_id",
-      sorter: true,
+      render: (text, record, index) => {
+        // console.log(record);
+        return (
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setDataViewDetail(record);
+              setOpenViewDetail(true);
+            }}
+          >
+            {record._id}
+          </a>
+        );
+      },
     },
     {
       title: "Tên hiển thị",
@@ -117,6 +138,13 @@ const UserTable = () => {
           />
         </Col>
       </Row>
+
+      {/* view user detail */}
+      <ViewUserDetail
+        openViewDetail={openViewDetail}
+        dataViewDetail={dataViewDetail}
+        closeViewDetail={closeViewDetail}
+      />
     </>
   );
 };
