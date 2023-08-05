@@ -1,4 +1,4 @@
-*** Base React Test Fresher | Udemy Hỏi Dân IT ***
+*** Base React Test Fresher ***
 
 - React 18
 - React Router 6
