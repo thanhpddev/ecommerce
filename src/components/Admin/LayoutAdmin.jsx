@@ -10,7 +10,7 @@ import {
   MenuUnfoldOutlined,
   DownOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Dropdown, Space, message } from "antd";
+import { Layout, Menu, Dropdown, Space, message, Avatar } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./layout.scss";
@@ -87,6 +87,11 @@ const LayoutAdmin = () => {
     },
   ];
 
+  // url-backend/images/avatar/image-id-here
+  const avatar = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${
+    user.avatar
+  }`;
+
   return (
     <Layout style={{ minHeight: "100vh" }} className="layout-admin">
       <Sider
@@ -103,8 +108,8 @@ const LayoutAdmin = () => {
           onClick={(e) => setActiveMenu(e.key)}
         />
       </Sider>
-      <Layout>
-        <div className="admin-header">
+      <Layout style={{ padding: "0 15px", boxSizing: "border-box" }}>
+        <div className="admin-header" style={{ marginBottom: "15px" }}>
           <span>
             {React.createElement(
               collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -116,8 +121,9 @@ const LayoutAdmin = () => {
           </span>
           <Dropdown menu={{ items: itemsDropdown }} trigger={["click"]}>
             <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                Welcome {user?.fullName}
+              <Space style={{ lineHeight: 1 }}>
+                <Avatar size="small" src={`${avatar}`} alt="avatar" />
+                {user?.fullName}
                 <DownOutlined />
               </Space>
             </a>

@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Table, Row, Col } from "antd";
+import { Table, Row, Col, Button } from "antd";
+import {
+  AiOutlineExport,
+  AiOutlineFileAdd,
+  AiOutlineCloudUpload,
+} from "react-icons/ai";
+import { GrRefresh } from "react-icons/gr";
+
 import InputSearch from "./InputSearch";
 import { callFetchListUser } from "../../../services/api";
 import ViewUserDetail from "./ViewUserDetail";
+
+import "./userTable.scss";
 
 // https://stackblitz.com/run?file=demo.tsx
 
@@ -12,15 +21,16 @@ const UserTable = () => {
   const [pageSize, setPageSize] = useState(2);
   const [total, setTotal] = useState(0);
   const [sortQuery, setSortQuery] = useState("");
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     fetchUser();
-  }, [current, pageSize, sortQuery]);
+  }, [current, pageSize, sortQuery, filter]);
 
-  const fetchUser = async (searchFilter) => {
+  const fetchUser = async () => {
     let query = `current=${current}&pageSize=${pageSize}`;
-    if (searchFilter) {
-      query += `&${searchFilter}`;
+    if (filter) {
+      query += `&${filter}`;
     }
     if (sortQuery) {
       query += `&sort=${sortQuery}`;
@@ -43,7 +53,6 @@ const UserTable = () => {
       title: "Id",
       dataIndex: "_id",
       render: (text, record, index) => {
-        // console.log(record);
         return (
           <a
             href="#"
@@ -106,8 +115,37 @@ const UserTable = () => {
   };
 
   const handleSearch = (query) => {
-    // console.log("query ", query);
-    fetchUser(query);
+    setFilter(query);
+  };
+
+  const renderHeader = () => {
+    return (
+      <div
+        className="table-button"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <h3>Danh sách người dùng</h3>
+        <div style={{ display: "flex", gap: 15 }}>
+          <Button type="primary" icon={<AiOutlineExport />}>
+            Export
+          </Button>
+          <Button type="primary" icon={<AiOutlineCloudUpload />}>
+            Import
+          </Button>
+          <Button type="primary" icon={<AiOutlineFileAdd />}>
+            Thêm mới
+          </Button>
+          <Button
+            type="ghost"
+            icon={<GrRefresh />}
+            onClick={() => {
+              setSortQuery("");
+              setFilter("");
+            }}
+          />
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -123,6 +161,7 @@ const UserTable = () => {
         </Col>
         <Col span={24}>
           <Table
+            title={renderHeader}
             className="def"
             columns={columns}
             dataSource={listUser}
@@ -133,7 +172,7 @@ const UserTable = () => {
               pageSize: pageSize,
               showSizeChanger: true,
               total: total,
-              pageSizeOptions: ["2", "5", "10", "20"],
+              pageSizeOptions: ["2", "5", "10", "20", "50"],
             }}
           />
         </Col>

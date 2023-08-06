@@ -34,7 +34,6 @@ const RegisterPage = () => {
         duration: 5,
       });
     }
-    console.log("res", res);
   };
 
   // const onFinishFailed = (errorInfo) => {

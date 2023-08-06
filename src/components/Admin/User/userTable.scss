@@ -1,0 +1,12 @@
+.table-button {
+  button {
+    &:last-child {
+      width: auto;
+    }
+    display: flex;
+    align-items: center;
+    span {
+      margin-left: 5px;
+    }
+  }
+}
