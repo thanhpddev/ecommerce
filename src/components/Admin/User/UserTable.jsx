@@ -7,9 +7,10 @@ import {
 } from "react-icons/ai";
 import { GrRefresh } from "react-icons/gr";
 
-import InputSearch from "./InputSearch";
 import { callFetchListUser } from "../../../services/api";
+import InputSearch from "./InputSearch";
 import ViewUserDetail from "./ViewUserDetail";
+import UserModalCreate from "./UserModalCreate";
 
 import "./userTable.scss";
 
@@ -83,6 +84,11 @@ const UserTable = () => {
       sorter: true,
     },
     {
+      title: "Ngày cập nhật",
+      dataIndex: "phone",
+      sorter: true,
+    },
+    {
       title: "Action",
       render: (text, record, index) => {
         return (
@@ -119,6 +125,17 @@ const UserTable = () => {
   };
 
   const renderHeader = () => {
+    //add user
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+      setIsModalOpen(true);
+    };
+    const handleOk = () => {
+      setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+      setIsModalOpen(false);
+    };
     return (
       <div
         className="table-button"
@@ -132,7 +149,11 @@ const UserTable = () => {
           <Button type="primary" icon={<AiOutlineCloudUpload />}>
             Import
           </Button>
-          <Button type="primary" icon={<AiOutlineFileAdd />}>
+          <Button
+            type="primary"
+            icon={<AiOutlineFileAdd />}
+            onClick={showModal}
+          >
             Thêm mới
           </Button>
           <Button
@@ -144,6 +165,14 @@ const UserTable = () => {
             }}
           />
         </div>
+
+        {/* modal add user */}
+        <UserModalCreate
+          showModal={isModalOpen}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          fetchUser={fetchUser}
+        />
       </div>
     );
   };

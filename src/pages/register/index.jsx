@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Form,
-  Input,
-  message,
-  notification,
-} from "antd";
+import { Button, Divider, Form, Input, message, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
 import { callRegister } from "../../services/api";

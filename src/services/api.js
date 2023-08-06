@@ -24,3 +24,12 @@ export const callLogout = () => {
 export const callFetchListUser = (query) => {
   return axios.get(`/api/v1/user?${query}`);
 };
+
+export const callCreateUser = (fullName, email, password, phone) => {
+  return axios.post("/api/v1/user/register", {
+    fullName,
+    email,
+    password,
+    phone,
+  });
+};
