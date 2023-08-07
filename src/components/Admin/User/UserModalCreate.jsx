@@ -50,6 +50,7 @@ const UserModalCreate = ({
         okText="Tạo mới"
         cancelText="Hủy"
         confirmLoading={isLoading}
+        maskClosable={false}
       >
         <Divider />
         <Form form={form} name="basic" onFinish={onFinish} autoComplete="off">
