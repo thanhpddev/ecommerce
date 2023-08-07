@@ -13,6 +13,7 @@ import ViewUserDetail from "./ViewUserDetail";
 import UserModalCreate from "./UserModalCreate";
 
 import "./userTable.scss";
+import UserImport from "./UserImport";
 
 // https://stackblitz.com/run?file=demo.tsx
 
@@ -127,7 +128,9 @@ const UserTable = () => {
   const renderHeader = () => {
     //add user
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const showModal = () => {
+    const [isModalOpenExport, setIsModalOpenExport] = useState(false);
+
+    const showModalAdd = () => {
       setIsModalOpen(true);
     };
     const handleOk = () => {
@@ -136,6 +139,18 @@ const UserTable = () => {
     const handleCancel = () => {
       setIsModalOpen(false);
     };
+
+    //export user
+    const showModalExport = () => {
+      setIsModalOpenExport(true);
+    };
+    const handleCancelExport = () => {
+      setIsModalOpenExport(false);
+    };
+    const handleOkExport = () => {
+      setIsModalOpenExport(false);
+    };
+
     return (
       <div
         className="table-button"
@@ -146,13 +161,17 @@ const UserTable = () => {
           <Button type="primary" icon={<AiOutlineExport />}>
             Export
           </Button>
-          <Button type="primary" icon={<AiOutlineCloudUpload />}>
+          <Button
+            type="primary"
+            icon={<AiOutlineCloudUpload />}
+            onClick={showModalExport}
+          >
             Import
           </Button>
           <Button
             type="primary"
             icon={<AiOutlineFileAdd />}
-            onClick={showModal}
+            onClick={showModalAdd}
           >
             Thêm mới
           </Button>
@@ -168,10 +187,16 @@ const UserTable = () => {
 
         {/* modal add user */}
         <UserModalCreate
-          showModal={isModalOpen}
+          showModalAdd={isModalOpen}
           handleOk={handleOk}
           handleCancel={handleCancel}
           fetchUser={fetchUser}
+        />
+        {/* modal import file user */}
+        <UserImport
+          showModalExport={isModalOpenExport}
+          handleOkExport={handleOkExport}
+          handleCancelExport={handleCancelExport}
         />
       </div>
     );

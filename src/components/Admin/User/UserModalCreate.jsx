@@ -11,7 +11,12 @@ import { useState } from "react";
 
 import { callCreateUser } from "../../../services/api";
 
-const UserModalCreate = ({ showModal, handleOk, handleCancel, fetchUser }) => {
+const UserModalCreate = ({
+  showModalAdd,
+  handleOk,
+  handleCancel,
+  fetchUser,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
   const onFinish = async (values) => {
@@ -37,7 +42,7 @@ const UserModalCreate = ({ showModal, handleOk, handleCancel, fetchUser }) => {
     <>
       <Modal
         title="Thêm mới người dùng"
-        open={showModal}
+        open={showModalAdd}
         onOk={() => {
           form.submit();
         }}
