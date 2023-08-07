@@ -20,45 +20,45 @@ import { doLogoutAction } from "../../redux/account/accountSlice";
 
 const { Content, Footer, Sider } = Layout;
 
-const items = [
-  {
-    label: <Link to="/admin">Dashboard</Link>,
-    key: "dashboard",
-    icon: <AppstoreOutlined />,
-  },
-  {
-    label: <span>Manage Users</span>,
-    // key: 'user',
-    icon: <UserOutlined />,
-    children: [
-      {
-        label: <Link to="/admin/user">CRUD</Link>,
-        key: "crud",
-        icon: <TeamOutlined />,
-      },
-      {
-        label: "Files1",
-        key: "file1",
-        icon: <TeamOutlined />,
-      },
-    ],
-  },
-  {
-    label: <Link to="/admin/book">Manage Books</Link>,
-    key: "book",
-    icon: <ExceptionOutlined />,
-  },
-  {
-    label: <Link to="/admin/order">Manage Orders</Link>,
-    key: "order",
-    icon: <DollarCircleOutlined />,
-  },
-];
-
 const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [activeMenu, setActiveMenu] = useState("dashboard");
   const user = useSelector((state) => state.account.user);
+
+  const items = [
+    {
+      label: <Link to="/admin">Dashboard</Link>,
+      key: "dashboard",
+      icon: <AppstoreOutlined />,
+    },
+    {
+      label: <span>Manage Users</span>,
+      // key: 'user',
+      icon: <UserOutlined />,
+      children: [
+        {
+          label: <Link to="/admin/user">CRUD</Link>,
+          key: "crud",
+          icon: <TeamOutlined />,
+        },
+        {
+          label: "Files1",
+          key: "file1",
+          icon: <TeamOutlined />,
+        },
+      ],
+    },
+    {
+      label: <Link to="/admin/book">Manage Books</Link>,
+      key: "book",
+      icon: <ExceptionOutlined />,
+    },
+    {
+      label: <Link to="/admin/order">Manage Orders</Link>,
+      key: "order",
+      icon: <DollarCircleOutlined />,
+    },
+  ];
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

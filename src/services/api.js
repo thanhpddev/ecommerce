@@ -33,3 +33,7 @@ export const callCreateUser = (fullName, email, password, phone) => {
     phone,
   });
 };
+
+export const callBulkCreateUser = (data) => {
+  return axios.post("/api/v1/user/bulk-create", data);
+};

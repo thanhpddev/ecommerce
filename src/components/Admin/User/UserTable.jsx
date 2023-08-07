@@ -147,9 +147,6 @@ const UserTable = () => {
     const handleCancelExport = () => {
       setIsModalOpenExport(false);
     };
-    const handleOkExport = () => {
-      setIsModalOpenExport(false);
-    };
 
     return (
       <div
@@ -195,7 +192,6 @@ const UserTable = () => {
         {/* modal import file user */}
         <UserImport
           showModalExport={isModalOpenExport}
-          handleOkExport={handleOkExport}
           handleCancelExport={handleCancelExport}
         />
       </div>

@@ -1,16 +1,15 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Divider, message, Modal, Table, Upload } from "antd";
+import { Divider, message, Modal, notification, Table, Upload } from "antd";
 import { useState } from "react";
 import * as XLSX from "xlsx";
+import { callBulkCreateUser } from "../../../services/api";
 
 const { Dragger } = Upload;
 
-const UserImport = ({
-  showModalExport,
-  handleOkExport,
-  handleCancelExport,
-}) => {
+const UserImport = ({ showModalExport, handleCancelExport }) => {
   const [dataExcel, setDataExcel] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isShowUploadList, setIsShowUploadList] = useState(true);
 
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -29,8 +28,7 @@ const UserImport = ({
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-        //   console.log("info.file", info.fileList[0].originFileObj.name);
+        // console.log(info.file, info.fileList);
       }
       if (status === "done") {
         if (info.fileList && info.fileList.length > 0) {
@@ -65,6 +63,36 @@ const UserImport = ({
       console.log("Dropped files", e.dataTransfer.files);
     },
   };
+
+  //   console.log("dataExcel ", dataExcel);
+  const handleSubmitImport = async () => {
+    setIsLoading(true);
+    const data = dataExcel.map((item, index) => {
+      item.password = "123456";
+      //   delete item.key;
+      return item;
+    });
+
+    let res = await callBulkCreateUser(data);
+    setIsLoading(false);
+
+    if (res.data) {
+      notification.success({
+        description: `Success: ${res.data.countSuccess}, Error: ${res.data.countError}`,
+        message: "Import thành công",
+      });
+      handleCancelExport();
+      setDataExcel([]);
+      setIsShowUploadList(false);
+    } else {
+      notification.error({
+        message: "Có lỗi xảy ra",
+        description: res.message,
+        duration: 5,
+      });
+    }
+  };
+
   return (
     <>
       <Modal
@@ -72,11 +100,17 @@ const UserImport = ({
         open={showModalExport}
         okText="Import"
         cancelText="Hủy"
-        onOk={handleOkExport}
-        onCancel={handleCancelExport}
+        onOk={handleSubmitImport}
+        onCancel={() => {
+          handleCancelExport();
+          setDataExcel([]);
+          setIsShowUploadList(false);
+        }}
+        confirmLoading={isLoading}
         maskClosable={false}
+        okButtonProps={{ disabled: dataExcel.length < 1 }}
       >
-        <Dragger {...propsUpload}>
+        <Dragger {...propsUpload} showUploadList={isShowUploadList}>
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
