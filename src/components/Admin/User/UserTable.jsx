@@ -4,6 +4,8 @@ import {
   AiOutlineExport,
   AiOutlineFileAdd,
   AiOutlineCloudUpload,
+  AiOutlineDelete,
+  AiOutlineEdit,
 } from "react-icons/ai";
 import { GrRefresh } from "react-icons/gr";
 import moment from "moment";
@@ -16,6 +18,7 @@ import UserModalCreate from "./UserModalCreate";
 
 import "./userTable.scss";
 import UserImport from "./data/UserImport";
+import UserModalUpdate from "./UserModalUpdate";
 
 // https://stackblitz.com/run?file=demo.tsx
 
@@ -51,6 +54,22 @@ const UserTable = () => {
   const closeViewDetail = () => {
     setOpenViewDetail(false);
   };
+
+  //show data update
+  const [dataUpdate, setDataUpdate] = useState([]);
+  const [isModalUpdate, setIsModalUpdate] = useState(false);
+
+  const showModalUpdate = () => {
+    setIsModalUpdate(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalUpdate(false);
+  };
+
+  //handle delete user
+  const handleDelete = () => {};
+
   const columns = [
     {
       title: "Id",
@@ -98,7 +117,17 @@ const UserTable = () => {
       render: (text, record, index) => {
         return (
           <>
-            <button>Delete</button>
+            <AiOutlineDelete
+              style={{ color: "red", cursor: "pointer" }}
+              onClick={handleDelete}
+            />
+            <AiOutlineEdit
+              style={{ marginLeft: 10, cursor: "pointer" }}
+              onClick={() => {
+                setDataUpdate(record);
+                showModalUpdate();
+              }}
+            />
           </>
         );
       },
@@ -252,6 +281,14 @@ const UserTable = () => {
         openViewDetail={openViewDetail}
         dataViewDetail={dataViewDetail}
         closeViewDetail={closeViewDetail}
+      />
+
+      {/* update modal user */}
+      <UserModalUpdate
+        showModalUpdate={isModalUpdate}
+        handleCancel={handleCancel}
+        dataUpdate={dataUpdate}
+        fetchUser={fetchUser}
       />
     </>
   );
