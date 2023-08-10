@@ -6,6 +6,7 @@ import {
   AiOutlineCloudUpload,
 } from "react-icons/ai";
 import { GrRefresh } from "react-icons/gr";
+import moment from "moment";
 
 import { callFetchListUser } from "../../../services/api";
 import InputSearch from "./InputSearch";
@@ -13,7 +14,7 @@ import ViewUserDetail from "./ViewUserDetail";
 import UserModalCreate from "./UserModalCreate";
 
 import "./userTable.scss";
-import UserImport from "./UserImport";
+import UserImport from "./data/UserImport";
 
 // https://stackblitz.com/run?file=demo.tsx
 
@@ -28,7 +29,6 @@ const UserTable = () => {
   useEffect(() => {
     fetchUser();
   }, [current, pageSize, sortQuery, filter]);
-
   const fetchUser = async () => {
     let query = `current=${current}&pageSize=${pageSize}`;
     if (filter) {
@@ -39,6 +39,9 @@ const UserTable = () => {
     }
     const res = await callFetchListUser(query);
     if (res && res.data) {
+      for (const item of res.data.result) {
+        item.updatedAt = moment(item.updatedAt).format("DD-MM-YYYY HH:mm:ss");
+      }
       setListUser(res.data.result);
       setTotal(res.data.meta.total);
     }
@@ -86,7 +89,7 @@ const UserTable = () => {
     },
     {
       title: "Ngày cập nhật",
-      dataIndex: "phone",
+      dataIndex: "updatedAt",
       sorter: true,
     },
     {

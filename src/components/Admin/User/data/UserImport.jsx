@@ -2,7 +2,9 @@ import { InboxOutlined } from "@ant-design/icons";
 import { Divider, message, Modal, notification, Table, Upload } from "antd";
 import { useState } from "react";
 import * as XLSX from "xlsx";
-import { callBulkCreateUser } from "../../../services/api";
+
+import { callBulkCreateUser } from "../../../../services/api";
+import templateFile from "./template.xlsx?url";
 
 const { Dragger } = Upload;
 
@@ -117,7 +119,18 @@ const UserImport = ({ showModalExport, handleCancelExport }) => {
           <p className="ant-upload-text">
             Nhấp hoặc kéo tệp vào khu vực này để tải lên
           </p>
-          <p className="ant-upload-hint">Nghiêm cấm tải lên dữ liệu bị cấm.</p>
+          <p className="ant-upload-hint">
+            Chỉ chấp nhận xlsx, xls, .csv hoặc{" "}
+            <a
+              href={templateFile}
+              download
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              Tải xuống tệp mẫu
+            </a>
+          </p>
         </Dragger>
         <Divider />
         <Table
