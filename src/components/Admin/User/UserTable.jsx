@@ -7,6 +7,7 @@ import {
 } from "react-icons/ai";
 import { GrRefresh } from "react-icons/gr";
 import moment from "moment";
+import * as XLSX from "xlsx";
 
 import { callFetchListUser } from "../../../services/api";
 import InputSearch from "./InputSearch";
@@ -39,9 +40,6 @@ const UserTable = () => {
     }
     const res = await callFetchListUser(query);
     if (res && res.data) {
-      for (const item of res.data.result) {
-        item.updatedAt = moment(item.updatedAt).format("DD-MM-YYYY HH:mm:ss");
-      }
       setListUser(res.data.result);
       setTotal(res.data.meta.total);
     }
@@ -91,6 +89,9 @@ const UserTable = () => {
       title: "Ngày cập nhật",
       dataIndex: "updatedAt",
       sorter: true,
+      render: (text, record, index) => {
+        return <>{moment(record.updatedAt).format("DD-MM-YYYY HH:mm:ss")}</>;
+      },
     },
     {
       title: "Action",
@@ -128,10 +129,21 @@ const UserTable = () => {
     setFilter(query);
   };
 
+  //export button
+  const handleExportData = () => {
+    if (listUser.length > 0) {
+      console.log("listUser", listUser);
+      const worksheet = XLSX.utils.json_to_sheet(listUser);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, "ExportUser.csv");
+    }
+  };
+
   const renderHeader = () => {
     //add user
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isModalOpenExport, setIsModalOpenExport] = useState(false);
+    const [isModalOpenImport, setIsModalOpenImport] = useState(false);
 
     const showModalAdd = () => {
       setIsModalOpen(true);
@@ -143,12 +155,12 @@ const UserTable = () => {
       setIsModalOpen(false);
     };
 
-    //export user
-    const showModalExport = () => {
-      setIsModalOpenExport(true);
+    //Import user
+    const showModalImport = () => {
+      setIsModalOpenImport(true);
     };
-    const handleCancelExport = () => {
-      setIsModalOpenExport(false);
+    const handleCancelImport = () => {
+      setIsModalOpenImport(false);
     };
 
     return (
@@ -158,13 +170,17 @@ const UserTable = () => {
       >
         <h3>Danh sách người dùng</h3>
         <div style={{ display: "flex", gap: 15 }}>
-          <Button type="primary" icon={<AiOutlineExport />}>
+          <Button
+            type="primary"
+            icon={<AiOutlineExport />}
+            onClick={handleExportData}
+          >
             Export
           </Button>
           <Button
             type="primary"
             icon={<AiOutlineCloudUpload />}
-            onClick={showModalExport}
+            onClick={showModalImport}
           >
             Import
           </Button>
@@ -194,8 +210,8 @@ const UserTable = () => {
         />
         {/* modal import file user */}
         <UserImport
-          showModalExport={isModalOpenExport}
-          handleCancelExport={handleCancelExport}
+          showModalImport={isModalOpenImport}
+          handleCancelImport={handleCancelImport}
         />
       </div>
     );

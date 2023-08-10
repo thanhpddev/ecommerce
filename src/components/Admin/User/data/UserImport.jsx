@@ -8,7 +8,7 @@ import templateFile from "./template.xlsx?url";
 
 const { Dragger } = Upload;
 
-const UserImport = ({ showModalExport, handleCancelExport }) => {
+const UserImport = ({ showModalImport, handleCancelImport}) => {
   const [dataExcel, setDataExcel] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isShowUploadList, setIsShowUploadList] = useState(true);
@@ -83,7 +83,7 @@ const UserImport = ({ showModalExport, handleCancelExport }) => {
         description: `Success: ${res.data.countSuccess}, Error: ${res.data.countError}`,
         message: "Import thành công",
       });
-      handleCancelExport();
+      handleCancelImport();
       setDataExcel([]);
       setIsShowUploadList(false);
     } else {
@@ -99,12 +99,12 @@ const UserImport = ({ showModalExport, handleCancelExport }) => {
     <>
       <Modal
         title="Import dữ liệu người dùng"
-        open={showModalExport}
+        open={showModalImport}
         okText="Import"
         cancelText="Hủy"
         onOk={handleSubmitImport}
         onCancel={() => {
-          handleCancelExport();
+          handleCancelImport();
           setDataExcel([]);
           setIsShowUploadList(false);
         }}
