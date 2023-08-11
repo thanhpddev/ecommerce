@@ -45,3 +45,7 @@ export const callUpdateUser = (_id, fullName, phone) => {
     phone,
   });
 };
+
+export const callDeleteUser = (_id) => {
+  return axios.delete(`/api/v1/user/${_id}`);
+};
