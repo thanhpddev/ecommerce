@@ -36,30 +36,27 @@ const InputSearch = ({ handleSearch }) => {
       <Row gutter={24}>
         <Col span={8}>
           <Form.Item
-            labelCol={{ span: 24 }} //whole column
-            name={`fullName`}
-            label={`Họ tên`}
+            labelCol={{ span: 24 }}
+            name={`mainText`}
+            label={`Tên sách`}
           >
-            <Input placeholder="Họ tên" />
+            <Input placeholder="Tên sách" />
           </Form.Item>
         </Col>
+
         <Col span={8}>
-          <Form.Item
-            labelCol={{ span: 24 }} //whole column
-            name={`email`}
-            label={`Email`}
-          >
-            <Input placeholder="Email" />
+          <Form.Item labelCol={{ span: 24 }} name={`author`} label={`Tác giả`}>
+            <Input placeholder="Tác giả" />
           </Form.Item>
         </Col>
 
         <Col span={8}>
           <Form.Item
-            labelCol={{ span: 24 }} //whole column
-            name={`phone`}
-            label={`Số điện thoại`}
+            labelCol={{ span: 24 }}
+            name={`category`}
+            label={`Thể loại`}
           >
-            <Input placeholder="Số điện thoại" />
+            <Input placeholder="Thể loại" />
           </Form.Item>
         </Col>
       </Row>

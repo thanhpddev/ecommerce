@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+
 import BookPage from "./pages/book";
 import ContactPage from "./pages/contact";
 import LoginPage from "./pages/login";
-import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import RegisterPage from "./pages/register";
 import { callFetchAccount } from "./services/api";
-import { useDispatch, useSelector } from "react-redux";
 import { doGetAccountAction } from "./redux/account/accountSlice";
 import Loading from "./components/Loading";
 import NotFound from "./components/NotFound";
 import AdminPage from "./pages/admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LayoutAdmin from "./components/Admin/LayoutAdmin";
-import "./styles/reset.scss";
 import InputSearch from "./components/Admin/User/InputSearch";
 import UserTable from "./components/Admin/User/UserTable";
+import BookTable from "./components/Admin/Book/BookTable";
+
+import "./styles/reset.scss";
 
 const Layout = () => {
   return (
@@ -88,7 +91,7 @@ export default function App() {
         },
         {
           path: "book",
-          element: <BookPage />,
+          element: <BookTable />,
         },
       ],
     },

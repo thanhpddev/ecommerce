@@ -8,7 +8,7 @@ import templateFile from "./template.xlsx?url";
 
 const { Dragger } = Upload;
 
-const UserImport = ({ showModalImport, handleCancelImport}) => {
+const UserImport = ({ showModalImport, handleCancelImport }) => {
   const [dataExcel, setDataExcel] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isShowUploadList, setIsShowUploadList] = useState(true);
@@ -120,7 +120,7 @@ const UserImport = ({ showModalImport, handleCancelImport}) => {
             Nhấp hoặc kéo tệp vào khu vực này để tải lên
           </p>
           <p className="ant-upload-hint">
-            Chỉ chấp nhận xlsx, xls, .csv hoặc{" "}
+            Chỉ hỗ trợ dạng file xlsx, xls, .csv hoặc{" "}
             <a
               href={templateFile}
               download

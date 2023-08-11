@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppstoreOutlined,
   ExceptionOutlined,
@@ -11,19 +11,42 @@ import {
   DownOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Dropdown, Space, message, Avatar } from "antd";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./layout.scss";
 import { useDispatch, useSelector } from "react-redux";
+
 import { callLogout } from "../../services/api";
 import { doLogoutAction } from "../../redux/account/accountSlice";
+
+import "./layout.scss";
 
 const { Content, Footer, Sider } = Layout;
 
 const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState("dashboard");
+  const [activeMenu, setActiveMenu] = useState("");
   const user = useSelector((state) => state.account.user);
+  //active link
+  const location = useLocation();
+  // const [selectedKey, setSelectedKey] = useState(
+  //   items.find((_item) => location.pathname.startsWith(_item.path)).key
+  // );
+
+  useEffect(() => {
+    items.find((current) => {
+      if (location.pathname === current.label.props.to) {
+        setActiveMenu(current.key);
+      }
+
+      if (current.children) {
+        current.children.find((subCurrent, index) => {
+          if (location.pathname === subCurrent.label.props.to) {
+            setActiveMenu(subCurrent.key);
+          }
+        });
+      }
+    });
+  }, [location]);
 
   const items = [
     {
@@ -42,7 +65,7 @@ const LayoutAdmin = () => {
           icon: <TeamOutlined />,
         },
         {
-          label: "Files1",
+          label: <Link to="/admin/file1">test</Link>,
           key: "file1",
           icon: <TeamOutlined />,
         },
@@ -103,6 +126,7 @@ const LayoutAdmin = () => {
         <div style={{ height: 32, margin: 16, textAlign: "center" }}>Admin</div>
         <Menu
           defaultSelectedKeys={[activeMenu]}
+          selectedKeys={[activeMenu]}
           mode="inline"
           items={items}
           onClick={(e) => setActiveMenu(e.key)}
