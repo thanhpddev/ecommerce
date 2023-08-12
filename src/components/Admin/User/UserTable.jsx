@@ -59,6 +59,7 @@ const UserTable = () => {
   //show detail user | Drawer
   const [openViewDetail, setOpenViewDetail] = useState(false);
   const [dataViewDetail, setDataViewDetail] = useState({});
+  
   const closeViewDetail = () => {
     setOpenViewDetail(false);
   };

@@ -21,6 +21,7 @@ import * as XLSX from "xlsx";
 
 import InputSearch from "./InputSearch";
 import { callFetchListBook } from "../../../services/api";
+import ViewBookDetail from "./ViewBookDetail";
 
 const BookTable = () => {
   const [listUser, setListUser] = useState([]);
@@ -30,9 +31,14 @@ const BookTable = () => {
   const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
   const [filter, setFilter] = useState("");
 
+  //show detail user | Drawer
+  const [openViewDetail, setOpenViewDetail] = useState(false);
+  const [dataViewDetail, setDataViewDetail] = useState({});
+
   useEffect(() => {
     fetchUser();
   }, [current, pageSize, sortQuery, filter]);
+
   const fetchUser = async () => {
     let query = `current=${current}&pageSize=${pageSize}&${sortQuery}`;
     if (filter) {
@@ -49,6 +55,10 @@ const BookTable = () => {
     }
   };
 
+  const closeViewDetail = () => {
+    setOpenViewDetail(false);
+  };
+
   const columns = [
     {
       title: "Id",
@@ -59,8 +69,8 @@ const BookTable = () => {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              //   setDataViewDetail(record);
-              //   setOpenViewDetail(true);
+              setDataViewDetail(record);
+              setOpenViewDetail(true);
             }}
           >
             {record._id}
@@ -245,6 +255,12 @@ const BookTable = () => {
           />
         </Col>
       </Row>
+
+      <ViewBookDetail
+        openViewDetail={openViewDetail}
+        dataViewDetail={dataViewDetail}
+        closeViewDetail={closeViewDetail}
+      />
     </>
   );
 };
