@@ -22,6 +22,7 @@ import * as XLSX from "xlsx";
 import InputSearch from "./InputSearch";
 import { callFetchListBook } from "../../../services/api";
 import ViewBookDetail from "./ViewBookDetail";
+import BookModalCreate from "./BookModalCreate";
 
 const BookTable = () => {
   const [listUser, setListUser] = useState([]);
@@ -137,26 +138,7 @@ const BookTable = () => {
 
   const renderHeader = () => {
     //add user
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isModalOpenImport, setIsModalOpenImport] = useState(false);
-
-    // const showModalAdd = () => {
-    //   setIsModalOpen(true);
-    // };
-    // const handleOk = () => {
-    //   setIsModalOpen(false);
-    // };
-    // const handleCancel = () => {
-    //   setIsModalOpen(false);
-    // };
-
-    // //Import user
-    // const showModalImport = () => {
-    //   setIsModalOpenImport(true);
-    // };
-    // const handleCancelImport = () => {
-    //   setIsModalOpenImport(false);
-    // };
+    const [openModalCreate, setOpenModalCreate] = useState(false);
 
     return (
       <div
@@ -176,7 +158,7 @@ const BookTable = () => {
           <Button
             type="primary"
             icon={<AiOutlineFileAdd />}
-            // onClick={showModalAdd}
+            onClick={() => setOpenModalCreate(true)}
           >
             Thêm mới
           </Button>
@@ -191,12 +173,13 @@ const BookTable = () => {
         </div>
 
         {/* modal add user */}
-        {/* <UserModalCreate
-          showModalAdd={isModalOpen}
-          handleOk={handleOk}
-          handleCancel={handleCancel}
-          fetchUser={fetchUser}
-        /> */}
+        <BookModalCreate
+          openModalCreate={openModalCreate}
+          setOpenModalCreate={setOpenModalCreate}
+          // handleOk={handleOk}
+          // handleCancel={handleCancel}
+          // fetchUser={fetchUser}
+        />
         {/* modal import file user */}
         {/* <UserImport
           showModalImport={isModalOpenImport}
