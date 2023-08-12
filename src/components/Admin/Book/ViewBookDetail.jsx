@@ -1,12 +1,15 @@
 import { Drawer, Badge, Descriptions, Divider, Upload, Modal } from "antd";
 import moment from "moment/moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const ViewBookDetail = ({
   openViewDetail,
   closeViewDetail,
   dataViewDetail,
 }) => {
+  console.log(dataViewDetail);
+
   const data = [
     { title: "Id", value: dataViewDetail._id },
     { title: "Tên sách", value: dataViewDetail.mainText },
@@ -37,26 +40,38 @@ const ViewBookDetail = ({
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState([
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-2",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-3",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-  ]);
+
+  const [fileList, setFileList] = useState([]);
+
+  useEffect(() => {
+    if (dataViewDetail) {
+      let img = [];
+
+      if (dataViewDetail.thumbnail) {
+        img.push({
+          uid: uuidv4(),
+          name: dataViewDetail.thumbnail,
+          status: "done",
+          url: `${import.meta.env.VITE_BACKEND_URL}/images/book/${
+            dataViewDetail.thumbnail
+          }`,
+        });
+      }
+
+      if (dataViewDetail.slider && dataViewDetail.slider.length > 0) {
+        dataViewDetail.slider.map((items) => {
+          img.push({
+            uid: uuidv4(),
+            name: items,
+            status: "done",
+            url: `${import.meta.env.VITE_BACKEND_URL}/images/book/${items}`,
+          });
+        });
+      }
+
+      setFileList(img);
+    }
+  }, [dataViewDetail]);
 
   const handleCancel = () => setPreviewOpen(false);
 
