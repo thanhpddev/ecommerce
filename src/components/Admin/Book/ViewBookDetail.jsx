@@ -8,8 +8,6 @@ const ViewBookDetail = ({
   closeViewDetail,
   dataViewDetail,
 }) => {
-  console.log(dataViewDetail);
-
   const data = [
     { title: "Id", value: dataViewDetail._id },
     { title: "Tên sách", value: dataViewDetail.mainText },

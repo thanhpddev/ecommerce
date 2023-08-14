@@ -23,6 +23,7 @@ import InputSearch from "./InputSearch";
 import { callFetchListBook } from "../../../services/api";
 import ViewBookDetail from "./ViewBookDetail";
 import BookModalCreate from "./BookModalCreate";
+import BookModalUpdate from "./BookModalUpdate";
 
 const BookTable = () => {
   const [listUser, setListUser] = useState([]);
@@ -32,7 +33,7 @@ const BookTable = () => {
   const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
   const [filter, setFilter] = useState("");
 
-  //show detail user | Drawer
+  //show detail book | Drawer
   const [openViewDetail, setOpenViewDetail] = useState(false);
   const [dataViewDetail, setDataViewDetail] = useState({});
 
@@ -59,6 +60,8 @@ const BookTable = () => {
   const closeViewDetail = () => {
     setOpenViewDetail(false);
   };
+
+  const [dataUpdate, setDataUpdate] = useState([]);
 
   const columns = [
     {
@@ -126,8 +129,8 @@ const BookTable = () => {
             <AiOutlineEdit
               style={{ marginLeft: 10, cursor: "pointer" }}
               onClick={() => {
-                // setDataUpdate(record);
-                // showModalUpdate();
+                setDataUpdate(record);
+                setOpenModalUpdate(true);
               }}
             />
           </>
@@ -136,10 +139,11 @@ const BookTable = () => {
     },
   ];
 
-  const renderHeader = () => {
-    //add user
-    const [openModalCreate, setOpenModalCreate] = useState(false);
+  //add book
+  const [openModalCreate, setOpenModalCreate] = useState(false);
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
+  const renderHeader = () => {
     return (
       <div
         className="table-button"
@@ -177,15 +181,7 @@ const BookTable = () => {
           openModalCreate={openModalCreate}
           setOpenModalCreate={setOpenModalCreate}
           fetchBook={fetchBook}
-          // handleOk={handleOk}
-          // handleCancel={handleCancel}
-          // fetchBook={fetchBook}
         />
-        {/* modal import file user */}
-        {/* <UserImport
-          showModalImport={isModalOpenImport}
-          handleCancelImport={handleCancelImport}
-        /> */}
       </div>
     );
   };
@@ -244,6 +240,13 @@ const BookTable = () => {
         openViewDetail={openViewDetail}
         dataViewDetail={dataViewDetail}
         closeViewDetail={closeViewDetail}
+      />
+      <BookModalUpdate
+        openModalUpdate={openModalUpdate}
+        setOpenModalUpdate={setOpenModalUpdate}
+        dataUpdate={dataUpdate}
+        setDataUpdate={setDataUpdate}
+        fetchBook={fetchBook}
       />
     </>
   );
