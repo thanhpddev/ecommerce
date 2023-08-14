@@ -14,7 +14,9 @@ import {
   Upload,
 } from "antd";
 import {
+  callCreateBook,
   /*callCreateAUser,*/ callFetchCategory,
+  callFetchListBook,
   callUploadBookImg,
 } from "../../../services/api";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
@@ -52,22 +54,51 @@ const BookModalCreate = (props) => {
   }, []);
 
   const onFinish = async (values) => {
-    console.log("values ", dataThumbnail);
-    // const { fullName, password, email, phone } = values;
-    //     setIsSubmit(true)
-    //     const res = await callCreateAUser(fullName, password, email, phone);
-    //     if (res && res.data) {
-    //         message.success('Tạo mới user thành công');
-    //         form.resetFields();
-    //         setOpenModalCreate(false);
-    //         await props.fetchBook()
-    //     } else {
-    //         notification.error({
-    //             message: 'Đã có lỗi xảy ra',
-    //             description: res.message
-    //         })
-    //     }
-    //     setIsSubmit(false)
+    setIsSubmit(true);
+    if (dataThumbnail.length === 0) {
+      notification.error({
+        message: "Lỗi validate",
+        description: "Vui lòng upload ảnh thumbnail",
+      });
+      return;
+    }
+
+    if (dataSlider.length === 0) {
+      notification.error({
+        message: "Lỗi validate",
+        description: "Vui lòng upload ảnh slider",
+      });
+      return;
+    }
+
+    const { mainText, author, price, sold, quantity, category } = values;
+    const thumbnail = dataThumbnail[0].name;
+    const slider = dataSlider.map((item) => item.name);
+
+    const res = await callCreateBook(
+      thumbnail,
+      slider,
+      mainText,
+      author,
+      price,
+      quantity,
+      sold,
+      category
+    );
+    setIsSubmit(false);
+    if (res && res.data) {
+      message.success("Tạo mới book thành công");
+      form.resetFields();
+      setDataThumbnail([]);
+      setDataSlider([]);
+      setOpenModalCreate(false);
+      await props.fetchBook();
+    } else {
+      notification.error({
+        message: "Đã có lỗi xảy ra",
+        description: res.message,
+      });
+    }
   };
 
   const getBase64 = (img, callback) => {
@@ -163,7 +194,10 @@ const BookModalCreate = (props) => {
         onOk={() => {
           form.submit();
         }}
-        onCancel={() => setOpenModalCreate(false)}
+        onCancel={() => {
+          setOpenModalCreate(false);
+          form.resetFields();
+        }}
         okText={"Tạo mới"}
         cancelText={"Hủy"}
         confirmLoading={isSubmit}

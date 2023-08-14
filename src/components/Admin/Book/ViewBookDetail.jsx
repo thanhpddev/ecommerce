@@ -15,6 +15,8 @@ const ViewBookDetail = ({
     { title: "Tên sách", value: dataViewDetail.mainText },
     { title: "Tác giả", value: dataViewDetail.author },
     { title: "Giá tiền", value: dataViewDetail.price },
+    { title: "Số lượng", value: dataViewDetail.quantity },
+    { title: "Đã bán", value: dataViewDetail.sold },
     {
       title: "Thể loại",
       value: <Badge status="processing" text={dataViewDetail.category} />,

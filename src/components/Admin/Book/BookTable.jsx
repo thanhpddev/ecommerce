@@ -37,10 +37,10 @@ const BookTable = () => {
   const [dataViewDetail, setDataViewDetail] = useState({});
 
   useEffect(() => {
-    fetchUser();
+    fetchBook();
   }, [current, pageSize, sortQuery, filter]);
 
-  const fetchUser = async () => {
+  const fetchBook = async () => {
     let query = `current=${current}&pageSize=${pageSize}&${sortQuery}`;
     if (filter) {
       query += `&${filter}`;
@@ -176,9 +176,10 @@ const BookTable = () => {
         <BookModalCreate
           openModalCreate={openModalCreate}
           setOpenModalCreate={setOpenModalCreate}
+          fetchBook={fetchBook}
           // handleOk={handleOk}
           // handleCancel={handleCancel}
-          // fetchUser={fetchUser}
+          // fetchBook={fetchBook}
         />
         {/* modal import file user */}
         {/* <UserImport
