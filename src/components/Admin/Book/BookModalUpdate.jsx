@@ -15,8 +15,8 @@ import { useEffect, useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
 import {
-  callCreateBook,
   callFetchCategory,
+  callUploadBook,
   callUploadBookImg,
 } from "../../../services/api";
 
@@ -119,12 +119,14 @@ const BookModalUpdate = ({
       return;
     }
 
-    const { mainText, author, price, sold, quantity, category } = values;
+    const { _id, mainText, author, price, sold, quantity, category } = values;
     const thumbnail = dataThumbnail[0].name;
     const slider = dataSlider.map((item) => item.name);
+    console.log(values);
 
     setIsSubmit(true);
-    const res = await callCreateBook(
+    const res = await callUploadBook(
+      _id,
       thumbnail,
       slider,
       mainText,
@@ -135,10 +137,11 @@ const BookModalUpdate = ({
       category
     );
     if (res && res.data) {
-      message.success("Tạo mới book thành công");
+      message.success("Cập nhật sách thành công");
       form.resetFields();
       setDataSlider([]);
       setDataThumbnail([]);
+      setInitForm(null);
       setOpenModalUpdate(false);
       await fetchBook();
     } else {
@@ -245,7 +248,7 @@ const BookModalUpdate = ({
   return (
     <>
       <Modal
-        title="Thêm mới book"
+        title="Cập nhật book"
         open={openModalUpdate}
         onOk={() => {
           form.submit();
@@ -256,7 +259,7 @@ const BookModalUpdate = ({
           setDataUpdate(null);
           setOpenModalUpdate(false);
         }}
-        okText={"Tạo mới"}
+        okText={"Cập nhật"}
         cancelText={"Hủy"}
         confirmLoading={isSubmit}
         width={"50vw"}
@@ -266,6 +269,17 @@ const BookModalUpdate = ({
         <Divider />
         <Form form={form} name="basic" onFinish={onFinish} autoComplete="off">
           <Row gutter={15}>
+            <Col hidden>
+              <Form.Item
+                hidden
+                labelCol={{ span: 24 }}
+                label="Id"
+                name="_id"
+                rules={[{ required: true, message: "Vui lòng nhập id!" }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
             <Col span={12}>
               <Form.Item
                 labelCol={{ span: 24 }}

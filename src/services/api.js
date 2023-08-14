@@ -94,3 +94,26 @@ export const callCreateBook = (
     category,
   });
 };
+
+export const callUploadBook = (
+  _id,
+  thumbnail,
+  slider,
+  mainText,
+  author,
+  price,
+  quantity,
+  sold,
+  category
+) => {
+  return axios.put(`/api/v1/book/${_id}`, {
+    thumbnail,
+    slider,
+    mainText,
+    author,
+    price,
+    quantity,
+    sold,
+    category,
+  });
+};
