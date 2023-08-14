@@ -20,7 +20,7 @@ import moment from "moment";
 import * as XLSX from "xlsx";
 
 import InputSearch from "./InputSearch";
-import { callFetchListBook } from "../../../services/api";
+import { callDeleteBook, callFetchListBook } from "../../../services/api";
 import ViewBookDetail from "./ViewBookDetail";
 import BookModalCreate from "./BookModalCreate";
 import BookModalUpdate from "./BookModalUpdate";
@@ -62,6 +62,21 @@ const BookTable = () => {
   };
 
   const [dataUpdate, setDataUpdate] = useState([]);
+
+  //handle delete user
+  const handleDelete = async (bookId) => {
+    const res = await callDeleteBook(bookId);
+    if (res && res.data) {
+      message.success("Xóa sách thành công!");
+      await fetchBook();
+    } else {
+      notification.error({
+        message: "Có lỗi xảy ra",
+        description: res.message,
+        duration: 5,
+      });
+    }
+  };
 
   const columns = [
     {
@@ -117,9 +132,9 @@ const BookTable = () => {
           <>
             <Popconfirm
               placement="left"
-              title={"Xác nhận xóa người dùng"}
-              description={"Bạn có chắc chắn xóa người dùng này?"}
-              //   onConfirm={() => handleDelete(record._id)}
+              title={"Xác nhận xóa sách"}
+              description={"Bạn có chắc chắn xóa quyển sách này?"}
+              onConfirm={() => handleDelete(record._id)}
               okText="Xác nhận"
               cancelText="Hủy"
             >

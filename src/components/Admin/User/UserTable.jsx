@@ -59,7 +59,7 @@ const UserTable = () => {
   //show detail user | Drawer
   const [openViewDetail, setOpenViewDetail] = useState(false);
   const [dataViewDetail, setDataViewDetail] = useState({});
-  
+
   const closeViewDetail = () => {
     setOpenViewDetail(false);
   };
@@ -79,7 +79,6 @@ const UserTable = () => {
   //handle delete user
   const handleDelete = async (userId) => {
     const res = await callDeleteUser(userId);
-    console.log(res);
     if (res && res.data) {
       message.success("Xóa người dùng thành công!");
       await fetchUser();
