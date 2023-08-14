@@ -176,7 +176,6 @@ const BookModalCreate = (props) => {
   };
 
   const handleRemoveFile = (file, type) => {
-    console.log("file", file);
     if (type === "thumbnail") {
       setDataThumbnail([]);
     }

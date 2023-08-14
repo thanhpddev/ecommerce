@@ -122,7 +122,6 @@ const BookModalUpdate = ({
     const { _id, mainText, author, price, sold, quantity, category } = values;
     const thumbnail = dataThumbnail[0].name;
     const slider = dataSlider.map((item) => item.name);
-    console.log(values);
 
     setIsSubmit(true);
     const res = await callUploadBook(

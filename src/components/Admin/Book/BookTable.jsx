@@ -158,6 +158,21 @@ const BookTable = () => {
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
+  //export button
+  const handleExportData = () => {
+    if (listUser.length > 0) {
+      listUser.map((item, index) => {
+        delete item.thumbnail;
+        delete item.slider;
+      });
+      console.log(listUser);
+      const worksheet = XLSX.utils.json_to_sheet(listUser);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, "ExportBook.csv");
+    }
+  };
+
   const renderHeader = () => {
     return (
       <div
@@ -169,7 +184,7 @@ const BookTable = () => {
           <Button
             type="primary"
             icon={<AiOutlineExport />}
-            // onClick={handleExportData}
+            onClick={handleExportData}
           >
             Export
           </Button>
