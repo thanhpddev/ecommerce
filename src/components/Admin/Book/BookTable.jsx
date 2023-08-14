@@ -26,7 +26,7 @@ import BookModalCreate from "./BookModalCreate";
 import BookModalUpdate from "./BookModalUpdate";
 
 const BookTable = () => {
-  const [listUser, setListUser] = useState([]);
+  const [listBook, setlistBook] = useState([]);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(2);
   const [total, setTotal] = useState(0);
@@ -52,7 +52,7 @@ const BookTable = () => {
 
     const res = await callFetchListBook(query);
     if (res && res.data) {
-      setListUser(res.data.result);
+      setlistBook(res.data.result);
       setTotal(res.data.meta.total);
     }
   };
@@ -160,13 +160,12 @@ const BookTable = () => {
 
   //export button
   const handleExportData = () => {
-    if (listUser.length > 0) {
-      listUser.map((item, index) => {
+    if (listBook.length > 0) {
+      listBook.map((item, index) => {
         delete item.thumbnail;
         delete item.slider;
       });
-      console.log(listUser);
-      const worksheet = XLSX.utils.json_to_sheet(listUser);
+      const worksheet = XLSX.utils.json_to_sheet(listBook);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       XLSX.writeFile(workbook, "ExportBook.csv");
@@ -252,7 +251,7 @@ const BookTable = () => {
             title={renderHeader}
             className="def"
             columns={columns}
-            dataSource={listUser}
+            dataSource={listBook}
             onChange={onChange}
             rowKey="_id"
             pagination={{
