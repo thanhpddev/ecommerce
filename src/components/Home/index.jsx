@@ -10,6 +10,7 @@ import {
   Rate,
   Tabs,
   Pagination,
+  Spin,
 } from "antd";
 
 import "./home.scss";
@@ -24,6 +25,7 @@ const Home = () => {
   const [total, setTotal] = useState(0);
   const [sortQuery, setSortQuery] = useState("sort=-sold");
   const [filter, setFilter] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [form] = Form.useForm();
 
@@ -46,57 +48,84 @@ const Home = () => {
   }, [current, pageSize, sortQuery, filter]);
 
   const fetchBook = async () => {
-    let query = `current=${current}&pageSize=${pageSize}&${sortQuery}`;
-    if (filter) {
-      query += `&${filter}`;
-    }
+    setIsLoading(true);
+    let query = `current=${current}&pageSize=${pageSize}`;
+
     if (sortQuery) {
-      query += `&sort=${sortQuery}`;
+      query += `&${sortQuery}`;
+    }
+    if (filter) {
+      query += `${filter}`;
     }
 
     const res = await callFetchListBook(query);
+
     if (res && res.data) {
       setlistBook(res.data.result);
       setTotal(res.data.meta.total);
     }
+    setIsLoading(false);
   };
 
   const handleChangeFilter = (changedValues, values) => {
     // console.log(">>> check handleChangeFilter", changedValues, values);
+
+    if (changedValues.category) {
+      const cate = values.category;
+      if (cate && cate.length > 0) {
+        setFilter(`&category=${cate.join(",")}`);
+      } else {
+        setFilter("");
+      }
+    }
   };
 
-  const onFinish = (values) => {};
+  const onFinish = (values) => {
+    if (values?.range?.from >= 0 && values?.range?.to >= 0) {
+      let f = `&price>=${values?.range?.from ?? 0}&price<=${
+        values?.range?.to ?? Infinity
+      }`;
+      if (values.category) {
+        f += `&category=${values.category.join(",")}`;
+      }
+      setFilter(f);
+    }
+  };
 
   const items = [
     {
-      key: "1",
+      key: "sort=-sold",
       label: `Phổ biến`,
       children: <></>,
     },
     {
-      key: "2",
+      key: "sort=-updatedAt",
       label: `Hàng Mới`,
       children: <></>,
     },
     {
-      key: "3",
+      key: "sort=price",
       label: `Giá Thấp Đến Cao`,
       children: <></>,
     },
     {
-      key: "4",
+      key: "sort=-price",
       label: `Giá Cao Đến Thấp`,
       children: <></>,
     },
   ];
 
-  const onChange = (page, _pageSize) => {
-    if (pagee) {
+  const onChangeTable = (page, _pageSize) => {
+    if (page) {
       setCurrent(page);
     }
     if (_pageSize) {
       setPageSize(_pageSize);
     }
+  };
+
+  const onChangeTabs = (activeKey) => {
+    setSortQuery(activeKey);
   };
 
   return (
@@ -108,7 +137,13 @@ const Home = () => {
               {" "}
               <FilterTwoTone /> Bộ lọc tìm kiếm
             </span>
-            <ReloadOutlined title="Reset" onClick={() => form.resetFields()} />
+            <ReloadOutlined
+              title="Reset"
+              onClick={() => {
+                form.resetFields();
+                setFilter("");
+              }}
+            />
           </div>
           <Form
             onFinish={onFinish}
@@ -222,41 +257,45 @@ const Home = () => {
         </Col>
         <Col className="col-right">
           <Row>
-            <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+            <Tabs defaultActiveKey="1" items={items} onChange={onChangeTabs} />
           </Row>
-          <Row className="customize-row">
-            {listBook.map((item, index) => {
-              return (
-                <div className="column" key={index}>
-                  <div className="wrapper">
-                    <div className="thumbnail">
-                      <img
-                        src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${
-                          item.thumbnail
-                        }`}
-                        alt={item.mainText}
-                      />
-                    </div>
-                    <div className="text">{item.mainText}</div>
-                    <div className="price">
-                      {new Intl.NumberFormat("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      }).format(item.price)}
-                    </div>
-                    <div className="rating">
-                      <Rate
-                        value={5}
-                        disabled
-                        style={{ color: "#ffce3d", fontSize: 10 }}
-                      />
-                      <span>Đã bán {item.sold}</span>
+
+          <Spin tip="Loading..." size="large" spinning={isLoading}>
+            <Row className="customize-row">
+              {listBook.map((item, index) => {
+                return (
+                  <div className="column" key={index}>
+                    <div className="wrapper">
+                      <div className="thumbnail">
+                        <img
+                          src={`${
+                            import.meta.env.VITE_BACKEND_URL
+                          }/images/book/${item.thumbnail}`}
+                          alt={item.mainText}
+                        />
+                      </div>
+                      <div className="text">{item.mainText}</div>
+                      <div className="price">
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(item.price)}
+                      </div>
+                      <div className="rating">
+                        <Rate
+                          value={5}
+                          disabled
+                          style={{ color: "#ffce3d", fontSize: 10 }}
+                        />
+                        <span>Đã bán {item.sold}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </Row>
+                );
+              })}
+            </Row>
+          </Spin>
+
           <Divider />
           <Row style={{ display: "flex", justifyContent: "center" }}>
             <Pagination
@@ -265,7 +304,7 @@ const Home = () => {
               current={current}
               pageSize={pageSize}
               total={total}
-              onChange={onChange}
+              onChange={onChangeTable}
               // showSizeChanger={true}
               // pageSizeOptions={["5", "10", "20", "50"]}
             />
