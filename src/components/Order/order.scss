@@ -1,0 +1,197 @@
+.order-container {
+  background: #efefef;
+  padding: 20px 15px;
+  box-sizing: border-box;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+
+    .col-left {
+      width: 75%;
+
+      .card {
+        display: flex;
+        justify-content: space-between;
+        background: #fff;
+        border-radius: 5px;
+        padding: 20px;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .card-body {
+          display: flex;
+          align-items: center;
+
+          &:first-child {
+            width: 70%;
+          }
+          &:last-child {
+            width: 20%;
+            justify-content: space-between;
+
+            > *:last-child {
+              min-width: 30px;
+              margin-right: 0;
+              cursor: pointer;
+
+              &:hover {
+                opacity: 0.7;
+                transition: all 0.3s ease;
+              }
+            }
+          }
+          .card-content {
+            display: flex;
+            align-items: center;
+            width: calc(100% - 100px);
+
+            > * {
+              margin-right: 30px;
+            }
+          }
+
+          .thumbnail {
+            width: 70px;
+            min-width: 70px;
+            height: 70px;
+            border: 1px solid #dfdfdf;
+            box-sizing: border-box;
+            padding: 2px;
+            margin-right: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+              width: 100%;
+              height: auto;
+            }
+          }
+          .title {
+            width: 50%;
+          }
+          .price {
+            min-width: 100px;
+          }
+          .total {
+            color: #ee4d2d;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+
+    //
+    .col-right {
+      width: calc(25% - 15px);
+      background: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      box-sizing: border-box;
+
+      .card {
+        .card-body {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 30px 0;
+          border-bottom: 1px solid #eee;
+
+          &:first-child {
+            padding-top: 10px;
+          }
+        }
+        button {
+          color: #fff;
+          position: relative;
+          overflow: visible;
+          outline: 0;
+          background: #ee4d2d;
+          border: 1px solid #ee4d2d;
+          box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.03);
+          cursor: pointer;
+          border-radius: 3px;
+          font-size: 16px;
+          height: 40px;
+          display: block;
+          width: 100%;
+          margin-top: 30px;
+
+          &:hover {
+            opacity: 0.9;
+            transition: all 0.3s ease;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .order-container .row .col-left .card .card-body:first-child {
+    width: 75%;
+  }
+  .order-container .row .col-left .card .card-body:last-child {
+    width: 25%;
+  }
+}
+
+@media screen and (max-width: 999px) {
+  .order-container .row {
+    display: block;
+
+    .col {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .order-container {
+    padding: 15px 10px;
+
+    .row .col-left .card {
+      display: block;
+
+      .card-body {
+        align-items: flex-start;
+        &:first-child {
+          width: 100%;
+        }
+
+        &:last-child {
+          width: calc(100% - 85px);
+          margin-left: auto;
+        }
+
+        .thumbnail {
+          margin-right: 15px;
+        }
+
+        .card-content {
+          display: block;
+          width: 100%;
+
+          > * {
+            margin-right: 0;
+            margin-bottom: 10px;
+          }
+
+          .title {
+            width: 100%;
+          }
+
+          .price {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

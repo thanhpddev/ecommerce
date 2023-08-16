@@ -115,10 +115,12 @@
   }
 }
 @media only screen and (max-width: 767px) {
-  .col-left {
-    display: none;
-  }
-  .col-right {
-    max-width: 100% !important;
+  .homepage-container {
+    .col-left {
+      display: none;
+    }
+    .col-right {
+      max-width: 100% !important;
+    }
   }
 }

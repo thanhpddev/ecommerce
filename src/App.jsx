@@ -20,6 +20,7 @@ import LayoutAdmin from "./components/Admin/LayoutAdmin";
 import InputSearch from "./components/Admin/User/InputSearch";
 import UserTable from "./components/Admin/User/UserTable";
 import BookTable from "./components/Admin/Book/BookTable";
+import Order from "./components/Order/index";
 
 import "./styles/reset.scss";
 import "./styles/global.scss";
@@ -69,6 +70,10 @@ export default function App() {
         {
           path: "book/:slug",
           element: <BookPage />,
+        },
+        {
+          path: "order",
+          element: <Order />,
         },
       ],
     },

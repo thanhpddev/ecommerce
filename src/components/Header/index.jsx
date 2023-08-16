@@ -88,7 +88,13 @@ const Header = () => {
         );
       })}
 
-      <button>Xem giỏ hàng</button>
+      <button
+        onClick={() => {
+          navigate("/order");
+        }}
+      >
+        Xem giỏ hàng
+      </button>
     </div>
   ) : (
     <></>
