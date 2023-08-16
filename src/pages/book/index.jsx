@@ -17,8 +17,6 @@ const BookPage = () => {
     }, 1000);
   }, [id]);
 
-  console.log(dataBookById);
-
   const fetchBookById = async () => {
     const res = await callFetchBookById(id);
     if (res && res.data) {
