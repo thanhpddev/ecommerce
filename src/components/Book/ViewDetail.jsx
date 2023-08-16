@@ -27,10 +27,6 @@ const ViewDetail = ({ dataBookById }) => {
     // refGallery?.current?.fullScreen()
   };
 
-  // const onChange = (value) => {
-  //   console.log("changed", value);
-  // };
-
   const handleChangeButton = (type) => {
     if (type === "MINUS") {
       if (currentQuantity - 1 <= 0) return;

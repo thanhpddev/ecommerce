@@ -38,6 +38,10 @@
       color: #61dafb;
       cursor: pointer;
       display: block;
+      a {
+        text-decoration: none;
+        color: #61dafb;
+      }
 
       .icon-react {
         font-size: 30px;

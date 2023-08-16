@@ -22,6 +22,7 @@ import UserTable from "./components/Admin/User/UserTable";
 import BookTable from "./components/Admin/Book/BookTable";
 
 import "./styles/reset.scss";
+import "./styles/global.scss";
 
 const Layout = () => {
   return (

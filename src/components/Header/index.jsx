@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { FaReact } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { VscSearchFuzzy } from "react-icons/vsc";
-import { Divider, Badge, Drawer, message, Avatar } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
+import { Divider, Badge, Drawer, message, Avatar, Popover, Result } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 import { Dropdown, Space } from "antd";
 import { useNavigate } from "react-router";
+
 import { callLogout } from "../../services/api";
-import "./header.scss";
 import { doLogoutAction } from "../../redux/account/accountSlice";
-import { Link } from "react-router-dom";
+
+import "./header.scss";
 
 const Header = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -58,6 +61,39 @@ const Header = () => {
     user.avatar
   }`;
 
+  console.log(carts);
+  const content = carts.length ? (
+    <div className="group">
+      {carts.map((item, index) => {
+        return (
+          <div className="card" key={`book-${index}`}>
+            <p className="thumbnail">
+              <img
+                src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${
+                  item.detail.thumbnail
+                }`}
+                alt={item.detail.mainText}
+              />
+            </p>
+            <div className="card-body">
+              <p className="title">{item.detail.mainText}</p>
+              <p className="price">
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(item.detail.price)}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+
+      <button>Xem giỏ hàng</button>
+    </div>
+  ) : (
+    <></>
+  );
+
   return (
     <>
       <div className="header-container">
@@ -73,7 +109,9 @@ const Header = () => {
             </div>
             <div className="page-header__logo">
               <span className="logo">
-                <FaReact className="rotate icon-react" /> Ecommerce
+                <Link to="/">
+                  <FaReact className="rotate icon-react" /> Ecommerce
+                </Link>
                 <VscSearchFuzzy className="icon-search" />
               </span>
               <input
@@ -86,9 +124,30 @@ const Header = () => {
           <nav className="page-header__bottom">
             <ul id="navigation" className="navigation">
               <li className="navigation__item">
-                <Badge count={carts?.length ?? 0} size={"small"} showZero>
-                  <FiShoppingCart className="icon-cart" />
-                </Badge>
+                <Popover
+                  rootClassName="popover-carts"
+                  placement="bottom"
+                  title={
+                    carts.length ? (
+                      <span>Sản phẩm mới thêm</span>
+                    ) : (
+                      <Result
+                        icon={
+                          <SmileOutlined
+                            style={{ fontSize: "3rem", color: "#9d9999" }}
+                          />
+                        }
+                        title="Chưa có sản phẩm nào trong giỏ hàng"
+                      />
+                    )
+                  }
+                  content={content}
+                  arrow={true}
+                >
+                  <Badge count={carts?.length ?? 0} size={"small"} showZero>
+                    <FiShoppingCart className="icon-cart" />
+                  </Badge>
+                </Popover>
               </li>
               <li className="navigation__item mobile">
                 <Divider type="vertical" />
