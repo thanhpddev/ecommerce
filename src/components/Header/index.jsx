@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaReact } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { VscSearchFuzzy } from "react-icons/vsc";
-import { SmileOutlined } from "@ant-design/icons";
+import { FrownOutlined } from "@ant-design/icons";
 import { Divider, Badge, Drawer, message, Avatar, Popover, Result } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
@@ -192,8 +192,8 @@ const Header = () => {
                     ) : (
                       <Result
                         icon={
-                          <SmileOutlined
-                            style={{ fontSize: "3rem", color: "#9d9999" }}
+                          <FrownOutlined
+                            style={{ fontSize: "3rem", color: "#cbcbcb" }}
                           />
                         }
                         title="Chưa có sản phẩm nào trong giỏ hàng"

@@ -1,6 +1,18 @@
-import { Button, InputNumber, Result } from "antd";
+import {
+  Button,
+  Checkbox,
+  Empty,
+  Form,
+  Input,
+  InputNumber,
+  Result,
+  Steps,
+} from "antd";
 import { BsArrowLeft, BsTrash } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import TextArea from "antd/es/input/TextArea";
 
 import {
   doDeleteCartAction,
@@ -8,14 +20,18 @@ import {
 } from "../../redux/order/orderSlice";
 
 import "./order.scss";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { doGetAccountAction } from "../../redux/account/accountSlice";
 
 const Order = () => {
   const [totalPrice, setTotalPrice] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const carts = useSelector((state) => state.order.carts);
+  const user = useSelector((state) => state.account.user);
+  console.log(user);
 
   useEffect(() => {
     let price = 0;
@@ -38,9 +54,41 @@ const Order = () => {
     dispatch(doDeleteCartAction({ _id: item._id }));
   };
 
+  const onFinish = (values) => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setCurrentStep(currentStep + 1);
+      setIsLoading(false);
+    }, 2000);
+    console.log("values", currentStep);
+  };
+
   return (
     <>
       <div className="order-container">
+        {carts.length ? (
+          <Steps
+            rootClassName="order-step"
+            size="small"
+            current={currentStep}
+            status={"finish"}
+            items={[
+              {
+                title: "Đơn hàng",
+              },
+              {
+                title: "Đặt hàng",
+              },
+              {
+                title: "Thanh toán",
+              },
+            ]}
+          />
+        ) : (
+          <></>
+        )}
+
         <div className="row">
           <div className="col col-left">
             {carts.length ? (
@@ -87,11 +135,14 @@ const Order = () => {
                 );
               })
             ) : (
-              <Result
-                status="403"
-                title="Giỏ hàng trống"
-                rootClassName="card-result"
-                extra={
+              <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{
+                  height: 110,
+                }}
+                rootClassName="card-empty"
+                description="Giỏ hàng trống"
+                children={
                   <Link
                     to="/"
                     type="primary"
@@ -109,27 +160,123 @@ const Order = () => {
             )}
           </div>
           <div className="col col-right">
-            <div className="card">
-              <div className="card-body">
-                <p>Tạm tính</p>
-                <p>
-                  {new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(totalPrice)}
-                </p>
+            {currentStep === 1 && carts.length ? (
+              <div className="step">
+                <Form name="basic" onFinish={onFinish} autoComplete="off">
+                  <Form.Item
+                    labelCol={{ span: 24 }}
+                    label="Tên người nhận"
+                    name="fullName"
+                    initialValue={user.fullName}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Tên người nhận không được để trống!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    labelCol={{ span: 24 }}
+                    label="Số điện thoại"
+                    name="phone"
+                    initialValue={user.phone}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Số điện thoại không được để trống!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    labelCol={{ span: 24 }}
+                    label="Địa chỉ"
+                    name="address"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Địa chỉ không được để trống!",
+                      },
+                    ]}
+                  >
+                    <TextArea rows={4} />
+                  </Form.Item>
+
+                  <Form.Item
+                    labelCol={{ span: 24 }}
+                    label="Phương thức thanh toán"
+                  >
+                    <Checkbox
+                      valuePropName="checked"
+                      checked={true}
+                      style={{ whiteSpace: "nowrap" }}
+                    >
+                      Thanh toán khi nhận hàng
+                    </Checkbox>
+                  </Form.Item>
+
+                  <div className="card-body">
+                    <p>Tổng tiền</p>
+                    <p>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(totalPrice)}
+                    </p>
+                  </div>
+
+                  <Form.Item>
+                    <Button
+                      className="order-submit"
+                      type="primary"
+                      htmlType="submit"
+                      loading={isLoading}
+                    >
+                      Mua hàng ({carts.length})
+                    </Button>
+                  </Form.Item>
+                </Form>
               </div>
-              <div className="card-body">
-                <p>Tổng tiền</p>
-                <p>
-                  {new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(totalPrice)}
-                </p>
+            ) : (
+              <></>
+            )}
+            {currentStep === 0 || !carts.length ? (
+              <div className="card">
+                <div className="card-body">
+                  <p>Tạm tính</p>
+                  <p>
+                    {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(totalPrice)}
+                  </p>
+                </div>
+                <div className="card-body">
+                  <p>Tổng tiền</p>
+                  <p>
+                    {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(totalPrice)}
+                  </p>
+                </div>
+                <button
+                  className="order-submit"
+                  onClick={() => {
+                    setCurrentStep(currentStep + 1);
+                  }}
+                >
+                  Mua Hàng ({carts.length})
+                </button>
               </div>
-              <button disabled={true}>Mua Hàng ({carts.length})</button>
-            </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>

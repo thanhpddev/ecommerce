@@ -3,6 +3,14 @@
   padding: 20px 15px;
   box-sizing: border-box;
 
+  .order-step {
+    background: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+
   .row {
     display: flex;
     justify-content: space-between;
@@ -10,11 +18,9 @@
     .col-left {
       width: 75%;
 
-      .card-result {
-        .ant-result-title {
-          color: #9d9999;
-          font-weight: normal;
-        }
+      .ant-empty-description {
+        color: #5e5d5d;
+        font-weight: normal;
       }
 
       .card {
@@ -101,6 +107,53 @@
       padding: 20px;
       box-sizing: border-box;
 
+      .step {
+        .ant-form-item {
+          margin-bottom: 10px;
+
+          > div > div {
+            padding-bottom: 0;
+          }
+        }
+        .card-body {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px 0;
+          border-top: 1px solid #eee;
+          border-bottom: 1px solid #eee;
+
+          p {
+            &:last-child {
+              font-size: 1.4rem;
+              color: #ee4d2d;
+            }
+          }
+        }
+      }
+
+      .order-submit {
+        color: #fff;
+        position: relative;
+        overflow: visible;
+        outline: 0;
+        background: #ee4d2d;
+        border: 1px solid #ee4d2d;
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.03);
+        cursor: pointer;
+        border-radius: 3px;
+        font-size: 16px;
+        height: 40px;
+        display: block;
+        width: 100%;
+        margin-top: 30px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          opacity: 0.9;
+          transition: all 0.3s ease;
+        }
+      }
       .card {
         .card-body {
           display: flex;
@@ -120,28 +173,6 @@
                 color: #ee4d2d;
               }
             }
-          }
-        }
-        button {
-          color: #fff;
-          position: relative;
-          overflow: visible;
-          outline: 0;
-          background: #ee4d2d;
-          border: 1px solid #ee4d2d;
-          box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.03);
-          cursor: pointer;
-          border-radius: 3px;
-          font-size: 16px;
-          height: 40px;
-          display: block;
-          width: 100%;
-          margin-top: 30px;
-          transition: all 0.3s ease;
-
-          &:hover {
-            opacity: 0.9;
-            transition: all 0.3s ease;
           }
         }
       }
