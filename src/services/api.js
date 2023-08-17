@@ -125,3 +125,7 @@ export const callDeleteBook = (_id) => {
 export const callFetchBookById = (_id) => {
   return axios.get(`/api/v1/book/${_id}`);
 };
+
+export const callPlaceOrder = (data) => {
+  return axios.post("/api/v1/order", data);
+};
