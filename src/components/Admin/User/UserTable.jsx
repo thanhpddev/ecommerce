@@ -189,7 +189,6 @@ const UserTable = () => {
   //export button
   const handleExportData = () => {
     if (listUser.length > 0) {
-      console.log("listUser", listUser);
       const worksheet = XLSX.utils.json_to_sheet(listUser);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");

@@ -1,11 +1,41 @@
-import { InputNumber } from "antd";
-import { BsTrash } from "react-icons/bs";
+import { Button, InputNumber, Result } from "antd";
+import { BsArrowLeft, BsTrash } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  doDeleteCartAction,
+  doUpdateCartAction,
+} from "../../redux/order/orderSlice";
 
 import "./order.scss";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Order = () => {
-  const onChange = (value) => {
-    console.log("changed", value);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const dispatch = useDispatch();
+
+  const carts = useSelector((state) => state.order.carts);
+
+  useEffect(() => {
+    let price = 0;
+    carts.map((item) => {
+      price += item.detail.price * item.quantity;
+    });
+    setTotalPrice(price);
+  }, [carts]);
+
+  const handleOnchangeInput = (value, book) => {
+    if (!value || value < 1) return;
+    if (!isNaN(value)) {
+      dispatch(
+        doUpdateCartAction({ quantity: value, detail: book, _id: book._id })
+      );
+    }
+  };
+
+  const handleDeleteCart = (item) => {
+    dispatch(doDeleteCartAction({ _id: item._id }));
   };
 
   return (
@@ -13,66 +43,92 @@ const Order = () => {
       <div className="order-container">
         <div className="row">
           <div className="col col-left">
-            <div className="card">
-              <div className="card-body">
-                <p className="thumbnail">
-                  <img
-                    src="https://picsum.photos/id/1018/250/150/"
-                    alt="thumbnail"
-                  />
-                </p>
-                <div className="card-content">
-                  <p className="title">Tên sản phẩm là gì vậy anh em ơi</p>
-                  <p className="price">250.000d</p>
-                  <InputNumber
-                    min={1}
-                    // max={10}
-                    defaultValue={3}
-                    onChange={onChange}
-                  />
-                </div>
-              </div>
-              <div className="card-body">
-                <p className="total">Tổng: 250.000d</p>
-                <BsTrash />
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-body">
-                <p className="thumbnail">
-                  <img
-                    src="https://picsum.photos/id/1018/250/150/"
-                    alt="thumbnail"
-                  />
-                </p>
-                <div className="card-content">
-                  <p className="title">Tên sản phẩm là gì vậy anh em ơi</p>
-                  <p className="price">250.000d</p>
-                  <InputNumber
-                    min={1}
-                    // max={10}
-                    defaultValue={3}
-                    onChange={onChange}
-                  />
-                </div>
-              </div>
-              <div className="card-body">
-                <p className="total">Tổng: 250.000d</p>
-                <BsTrash />
-              </div>
-            </div>
+            {carts.length ? (
+              carts.map((item, index) => {
+                return (
+                  <div className="card" key={`book-${index}`}>
+                    <div className="card-body">
+                      <p className="thumbnail">
+                        <img
+                          src={`${
+                            import.meta.env.VITE_BACKEND_URL
+                          }/images/book/${item.detail.thumbnail}`}
+                          alt={item.detail.mainText}
+                        />
+                      </p>
+                      <div className="card-content">
+                        <p className="title">{item.detail.mainText}</p>
+                        <p className="price">
+                          {new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(item.detail.price)}
+                        </p>
+                        <InputNumber
+                          // min={1}
+                          // max={item.detail.quantity}
+                          // defaultValue={item.quantity}
+                          value={item.quantity}
+                          onChange={(value) => handleOnchangeInput(value, item)}
+                        />
+                      </div>
+                    </div>
+                    <div className="card-body">
+                      <p className="total">
+                        Tổng:{" "}
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(item.detail.price * item.quantity)}
+                      </p>
+                      <BsTrash onClick={() => handleDeleteCart(item)} />
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <Result
+                status="403"
+                title="Giỏ hàng trống"
+                rootClassName="card-result"
+                extra={
+                  <Link
+                    to="/"
+                    type="primary"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <BsArrowLeft style={{ marginRight: 5 }} />
+                    Quay lại mua hàng
+                  </Link>
+                }
+              />
+            )}
           </div>
           <div className="col col-right">
             <div className="card">
               <div className="card-body">
                 <p>Tạm tính</p>
-                <p>100.000.000</p>
+                <p>
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(totalPrice)}
+                </p>
               </div>
               <div className="card-body">
                 <p>Tổng tiền</p>
-                <p>100.000.000</p>
+                <p>
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(totalPrice)}
+                </p>
               </div>
-              <button>Mua Hàng (2)</button>
+              <button disabled={true}>Mua Hàng ({carts.length})</button>
             </div>
           </div>
         </div>

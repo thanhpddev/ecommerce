@@ -10,6 +10,13 @@
     .col-left {
       width: 75%;
 
+      .card-result {
+        .ant-result-title {
+          color: #9d9999;
+          font-weight: normal;
+        }
+      }
+
       .card {
         display: flex;
         justify-content: space-between;
@@ -105,6 +112,15 @@
           &:first-child {
             padding-top: 10px;
           }
+
+          &:nth-child(2) {
+            p {
+              &:last-child {
+                font-size: 1.4rem;
+                color: #ee4d2d;
+              }
+            }
+          }
         }
         button {
           color: #fff;
@@ -121,6 +137,7 @@
           display: block;
           width: 100%;
           margin-top: 30px;
+          transition: all 0.3s ease;
 
           &:hover {
             opacity: 0.9;
