@@ -335,7 +335,9 @@ const Order = () => {
                 icon={<ShoppingOutlined />}
                 style={{ margin: "0 0 15px" }}
               >
-                Lịch sử đơn hàng
+                <Link to="/history" style={{ marginLeft: "5px" }}>
+                  Lịch sử đơn hàng
+                </Link>
               </Button>,
               <Link
                 to="/"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaReact } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { VscSearchFuzzy } from "react-icons/vsc";
@@ -38,6 +38,12 @@ const Header = () => {
       label: <label style={{ cursor: "pointer" }}>Quản lý tài khoản</label>,
       key: "account",
     },
+
+    {
+      label: <Link to="/history">Lịch sử mua hàng</Link>,
+      key: "history",
+    },
+
     {
       label: (
         <label style={{ cursor: "pointer" }} onClick={() => handleLogout()}>

@@ -21,6 +21,7 @@ import InputSearch from "./components/Admin/User/InputSearch";
 import UserTable from "./components/Admin/User/UserTable";
 import BookTable from "./components/Admin/Book/BookTable";
 import Order from "./components/Order/index";
+import History from "./components/History";
 
 import "./styles/reset.scss";
 import "./styles/global.scss";
@@ -42,7 +43,8 @@ export default function App() {
   const getAccount = async () => {
     if (
       window.location.pathname === "/login" ||
-      window.location.pathname === "/register"
+      window.location.pathname === "/register" ||
+      window.location.pathname === "/"
     )
       return;
 
@@ -74,6 +76,10 @@ export default function App() {
         {
           path: "order",
           element: <Order />,
+        },
+        {
+          path: "history",
+          element: <History />,
         },
       ],
     },
