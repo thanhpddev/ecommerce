@@ -133,3 +133,29 @@ export const callPlaceOrder = (data) => {
 export const callHistoryOrder = () => {
   return axios.get("/api/v1/history");
 };
+
+export const callUploadAvatar = (fileImg) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", fileImg);
+  return axios({
+    method: "post",
+    url: "/api/v1/file/upload",
+    data: bodyFormData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "upload-type": "avatar",
+    },
+  });
+};
+
+export const callUpLoadInfo = (fullName, phone, avatar, _id) => {
+  return axios.put("/api/v1/user", { fullName, phone, avatar, _id });
+};
+
+export const callChangePassword = (email, oldpass, newpass) => {
+  return axios.post("/api/v1/user/change-password", {
+    email,
+    oldpass,
+    newpass,
+  });
+};

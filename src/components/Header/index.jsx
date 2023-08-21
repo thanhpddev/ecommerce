@@ -14,12 +14,18 @@ import { callLogout } from "../../services/api";
 import { doLogoutAction } from "../../redux/account/accountSlice";
 
 import "./header.scss";
+import ManagerAccount from "../Account/managerAccount";
 
 const Header = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const isAuthenticated = useSelector((state) => state.account.isAuthenticated);
-  const user = useSelector((state) => state.account.user);
+
   const navigate = useNavigate();
+
+  const [showModalAccount, setShowModalAccount] = useState(false);
+
+  const isAuthenticated = useSelector((state) => state.account.isAuthenticated);
+
+  const user = useSelector((state) => state.account.user);
   const dispatch = useDispatch();
 
   const carts = useSelector((state) => state.order.carts);
@@ -35,7 +41,14 @@ const Header = () => {
 
   const items = [
     {
-      label: <label style={{ cursor: "pointer" }}>Quản lý tài khoản</label>,
+      label: (
+        <label
+          style={{ cursor: "pointer" }}
+          onClick={() => setShowModalAccount(true)}
+        >
+          Quản lý tài khoản
+        </label>
+      ),
       key: "account",
     },
 
@@ -248,6 +261,11 @@ const Header = () => {
         <p>Đăng xuất</p>
         <Divider />
       </Drawer>
+
+      <ManagerAccount
+        showModalAccount={showModalAccount}
+        setShowModalAccount={setShowModalAccount}
+      />
     </>
   );
 };

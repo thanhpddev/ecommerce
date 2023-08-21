@@ -13,13 +13,14 @@ import {
   Select,
   Upload,
 } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+
 import {
   callCreateBook,
-  /*callCreateAUser,*/ callFetchCategory,
+  callFetchCategory,
   callFetchListBook,
   callUploadBookImg,
 } from "../../../services/api";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 const BookModalCreate = (props) => {
   const { openModalCreate, setOpenModalCreate } = props;
