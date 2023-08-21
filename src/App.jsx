@@ -17,9 +17,9 @@ import NotFound from "./components/NotFound";
 import AdminPage from "./pages/admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LayoutAdmin from "./components/Admin/LayoutAdmin";
-import InputSearch from "./components/Admin/User/InputSearch";
 import UserTable from "./components/Admin/User/UserTable";
 import BookTable from "./components/Admin/Book/BookTable";
+import ManageOrder from "./components/Admin/ManageOrder/ManageOrder";
 import Order from "./components/Order/index";
 import History from "./components/History";
 
@@ -104,6 +104,10 @@ export default function App() {
         {
           path: "book",
           element: <BookTable />,
+        },
+        {
+          path: "manageorder",
+          element: <ManageOrder />,
         },
       ],
     },

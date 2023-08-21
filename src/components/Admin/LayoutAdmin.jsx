@@ -64,11 +64,11 @@ const LayoutAdmin = () => {
           key: "crud",
           icon: <TeamOutlined />,
         },
-        {
-          label: <Link to="/admin/file1">test</Link>,
-          key: "file1",
-          icon: <TeamOutlined />,
-        },
+        // {
+        //   label: <Link to="/admin/file1">test</Link>,
+        //   key: "file1",
+        //   icon: <TeamOutlined />,
+        // },
       ],
     },
     {
@@ -77,8 +77,8 @@ const LayoutAdmin = () => {
       icon: <ExceptionOutlined />,
     },
     {
-      label: <Link to="/admin/order">Manage Orders</Link>,
-      key: "order",
+      label: <Link to="/admin/manageorder">Manage Orders</Link>,
+      key: "manageorder",
       icon: <DollarCircleOutlined />,
     },
   ];
@@ -125,6 +125,7 @@ const LayoutAdmin = () => {
       >
         <div style={{ height: 32, margin: 16, textAlign: "center" }}>Admin</div>
         <Menu
+          className="menu-dashboard"
           defaultSelectedKeys={[activeMenu]}
           selectedKeys={[activeMenu]}
           mode="inline"

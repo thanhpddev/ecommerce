@@ -159,3 +159,11 @@ export const callChangePassword = (email, oldpass, newpass) => {
     newpass,
   });
 };
+
+export const callDashboard = () => {
+  return axios.get("/api/v1/database/dashboard");
+};
+
+export const callFetchManageOrder = (query) => {
+  return axios.get(`/api/v1/order?${query}`);
+};
