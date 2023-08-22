@@ -35,12 +35,13 @@
     }
 
     .logo {
-      color: #61dafb;
+      color: #1677ff;
       cursor: pointer;
       display: block;
+      min-width: 140px;
       a {
         text-decoration: none;
-        color: #61dafb;
+        color: #1677ff;
       }
 
       .icon-react {
@@ -111,7 +112,7 @@
       font-size: 20px;
       top: 5px;
       position: relative;
-      color: #61dafb;
+      color: #1677ff;
     }
   }
 

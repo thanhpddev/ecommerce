@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useLocation,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
@@ -27,10 +31,25 @@ import "./styles/reset.scss";
 import "./styles/global.scss";
 
 const Layout = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+
   return (
     <div className="layout-app">
-      <Header />
-      <Outlet />
+      <Header
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        isLoadingSearch={isLoadingSearch}
+        setIsLoadingSearch={setIsLoadingSearch}
+      />
+      <Outlet
+        context={[
+          searchTerm,
+          setSearchTerm,
+          isLoadingSearch,
+          setIsLoadingSearch,
+        ]}
+      />
       <Footer />
     </div>
   );
@@ -39,12 +58,14 @@ const Layout = () => {
 export default function App() {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.account.isLoading);
+  const isAuthenticated = useSelector((state) => state.account.isAuthenticated);
+  const user = useSelector((state) => state.account.user);
 
   const getAccount = async () => {
     if (
       window.location.pathname === "/login" ||
       window.location.pathname === "/register"
-      // || window.location.pathname === "/"
+      // || (window.location.pathname === "/" && !isAuthenticated)
     )
       return;
 
@@ -75,11 +96,19 @@ export default function App() {
         },
         {
           path: "order",
-          element: <Order />,
+          element: (
+            <ProtectedRoute>
+              <Order />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "history",
-          element: <History />,
+          element: (
+            <ProtectedRoute>
+              <History />
+            </ProtectedRoute>
+          ),
         },
       ],
     },
@@ -99,15 +128,27 @@ export default function App() {
         },
         {
           path: "user",
-          element: <UserTable />,
+          element: (
+            <ProtectedRoute>
+              <UserTable />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "book",
-          element: <BookTable />,
+          element: (
+            <ProtectedRoute>
+              <BookTable />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "manageorder",
-          element: <ManageOrder />,
+          element: (
+            <ProtectedRoute>
+              <ManageOrder />
+            </ProtectedRoute>
+          ),
         },
       ],
     },

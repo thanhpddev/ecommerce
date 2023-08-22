@@ -3,20 +3,37 @@ import { FaReact } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { VscSearchFuzzy } from "react-icons/vsc";
 import { FrownOutlined } from "@ant-design/icons";
-import { Divider, Badge, Drawer, message, Avatar, Popover, Result } from "antd";
+import {
+  Divider,
+  Badge,
+  Drawer,
+  message,
+  Avatar,
+  Popover,
+  Result,
+  Input,
+  Dropdown,
+  Space,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { Dropdown, Space } from "antd";
 import { useNavigate } from "react-router";
 
-import { callLogout } from "../../services/api";
+import { callFetchListBook, callLogout } from "../../services/api";
 import { doLogoutAction } from "../../redux/account/accountSlice";
 
 import "./header.scss";
 import ManagerAccount from "../Account/managerAccount";
+import useDeBounce from "../../Hooks/useDeBounce";
 
-const Header = () => {
+const Header = ({
+  searchTerm,
+  setSearchTerm,
+  isLoadingSearch,
+  setIsLoadingSearch,
+}) => {
+  const { Search } = Input;
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const navigate = useNavigate();
@@ -172,6 +189,20 @@ const Header = () => {
     <></>
   );
 
+  const handleSearch = (e) => {
+    let searchValue = e.target.value;
+
+    if (!searchValue.startsWith(" ")) {
+      setSearchTerm(searchValue);
+      setIsLoadingSearch(true);
+    }
+    if (!searchValue) {
+      setTimeout(() => {
+        setIsLoadingSearch(false);
+      }, 700);
+    }
+  };
+
   return (
     <>
       <div className="header-container">
@@ -190,12 +221,22 @@ const Header = () => {
                 <Link to="/">
                   <FaReact className="rotate icon-react" /> Ecommerce
                 </Link>
-                <VscSearchFuzzy className="icon-search" />
               </span>
-              <input
+              {/* <input
                 className="input-search"
                 type={"text"}
                 placeholder="Bạn tìm gì hôm nay"
+              /> */}
+              <Search
+                // className="input-search"
+                placeholder="Bạn tìm gì hôm nay..."
+                allowClear
+                enterButton="Search"
+                loading={isLoadingSearch}
+                size="large"
+                // onSearch={onSearch}
+                onChange={handleSearch}
+                value={searchTerm}
               />
             </div>
           </div>

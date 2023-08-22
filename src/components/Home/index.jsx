@@ -14,10 +14,12 @@ import {
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 import { callFetchCategory, callFetchListBook } from "../../services/api";
 
 import "./home.scss";
+import useDeBounce from "../../Hooks/useDeBounce";
 
 const Home = () => {
   const [listCategory, setListCategory] = useState([]);
@@ -29,6 +31,8 @@ const Home = () => {
   const [filter, setFilter] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const [searchTerm, setSearchTerm, isLoadingSearch, setIsLoadingSearch] =
+    useOutletContext();
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -46,9 +50,11 @@ const Home = () => {
     fetchCategory();
   }, []);
 
+  //debounced search value
+  const debounced = useDeBounce(searchTerm, 700);
   useEffect(() => {
     fetchBook();
-  }, [current, pageSize, sortQuery, filter]);
+  }, [current, pageSize, sortQuery, filter, debounced]);
 
   const fetchBook = async () => {
     setIsLoading(true);
@@ -59,6 +65,10 @@ const Home = () => {
     }
     if (filter) {
       query += `${filter}`;
+    }
+    if (debounced) {
+      query += `&mainText=/${encodeURIComponent(debounced)}/i`;
+      setIsLoadingSearch(false);
     }
 
     const res = await callFetchListBook(query);

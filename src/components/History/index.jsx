@@ -30,10 +30,21 @@ const History = () => {
       } else {
         let data = [];
         res.data.map((item, index) => {
+          console.log(item);
+          let bookName = "";
+          if (item.detail) {
+            bookName = item.detail.map((item) => (
+              <span>
+                {`${item.bookName} (x${item.quantity})`}
+                <br />
+              </span>
+            ));
+          }
           if (user.role === "ADMIN") {
             data.push({
               key: ++index,
               _id: index,
+              bookName: bookName,
               updatedAt: moment(item.updatedAt).format("DD-MM-YYYY HH:mm:ss"),
               totalPrice: `${item.totalPrice} ₫`,
               status: <Tag color="green">Thành công</Tag>,

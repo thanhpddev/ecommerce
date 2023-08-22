@@ -62,6 +62,12 @@ instance.interceptors.response.use(
       +error.response.status === 400 &&
       error.config.url === "/api/v1/auth/refresh"
     ) {
+      if (
+        window.location.pathname === "/" ||
+        window.location.pathname === "/login" ||
+        window.location.pathname === "/register"
+      )
+        return;
       window.location.href = "/login";
     }
 
