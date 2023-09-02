@@ -5,6 +5,7 @@ import ModalGallery from "./ModalGallery";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsCartPlus } from "react-icons/bs";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import BookLoader from "./BookLoader";
 import { doAddBookAction } from "../../redux/order/orderSlice";
@@ -15,7 +16,11 @@ const ViewDetail = ({ dataBookById }) => {
   const [isOpenModalGallery, setIsOpenModalGallery] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentQuantity, setCurrentQuantity] = useState(1);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const refGallery = useRef(null);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -48,6 +53,19 @@ const ViewDetail = ({ dataBookById }) => {
 
   const handleAddToCart = (quantity, book) => {
     dispatch(doAddBookAction({ quantity, detail: book, _id: book._id }));
+  };
+
+  const handleByOrder = () => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      if (!localStorage.getItem("access_token")) {
+        navigate("/login");
+        return;
+      }
+      handleAddToCart(currentQuantity, dataBookById);
+      navigate("/order");
+    }, 1000);
   };
 
   return (
@@ -150,7 +168,13 @@ const ViewDetail = ({ dataBookById }) => {
                       <BsCartPlus className="icon-cart" />
                       <span>Thêm vào giỏ hàng</span>
                     </button>
-                    <button className="now">Mua ngay</button>
+                    <Button
+                      loading={isLoading}
+                      className="now"
+                      onClick={handleByOrder}
+                    >
+                      Mua ngay
+                    </Button>
                   </div>
                 </Col>
               </Col>

@@ -28,7 +28,7 @@ import BookModalUpdate from "./BookModalUpdate";
 const BookTable = () => {
   const [listBook, setlistBook] = useState([]);
   const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(0);
   const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
   const [filter, setFilter] = useState("");
@@ -259,7 +259,7 @@ const BookTable = () => {
               pageSize: pageSize,
               showSizeChanger: true,
               total: total,
-              pageSizeOptions: ["2", "5", "10", "20", "50"],
+              pageSizeOptions: ["5", "10", "20", "50"],
             }}
           />
         </Col>

@@ -157,8 +157,8 @@ const LayoutAdmin = () => {
         <Content>
           <Outlet />
         </Content>
-        <Footer style={{ padding: 0 }}>
-          React Test Fresher &copy; Hỏi Dân IT - Made with <HeartTwoTone />
+        <Footer style={{ padding: 0, textAlign: "center" }}>
+          Copyright © 2023 - All Rights Reserved.
         </Footer>
       </Layout>
     </Layout>

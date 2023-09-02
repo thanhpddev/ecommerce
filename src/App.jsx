@@ -169,6 +169,7 @@ export default function App() {
       {isLoading === false ||
       window.location.pathname === "/login" ||
       window.location.pathname === "/register" ||
+      window.location.pathname.startsWith("/book") ||
       window.location.pathname === "/" ? (
         <RouterProvider router={router} />
       ) : (

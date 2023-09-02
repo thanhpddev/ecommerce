@@ -31,6 +31,7 @@ export const orderSlice = createSlice({
       }
       //update redux
       state.carts = carts;
+
       message.success("Sản phẩm đã được thêm vào giỏ hàng");
     },
     doUpdateCartAction: (state, action) => {
