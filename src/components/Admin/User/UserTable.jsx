@@ -33,7 +33,7 @@ import UserModalUpdate from "./UserModalUpdate";
 const UserTable = () => {
   const [listUser, setListUser] = useState([]);
   const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(0);
   const [sortQuery, setSortQuery] = useState("");
   const [filter, setFilter] = useState("");
@@ -41,6 +41,7 @@ const UserTable = () => {
   useEffect(() => {
     fetchUser();
   }, [current, pageSize, sortQuery, filter]);
+
   const fetchUser = async () => {
     let query = `current=${current}&pageSize=${pageSize}`;
     if (filter) {
@@ -183,6 +184,7 @@ const UserTable = () => {
   };
 
   const handleSearch = (query) => {
+    setCurrent(1);
     setFilter(query);
   };
 
@@ -297,7 +299,7 @@ const UserTable = () => {
               pageSize: pageSize,
               showSizeChanger: true,
               total: total,
-              pageSizeOptions: ["2", "5", "10", "20", "50"],
+              pageSizeOptions: ["5", "10", "20", "50"],
             }}
           />
         </Col>
