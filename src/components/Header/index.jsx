@@ -219,7 +219,7 @@ const Header = ({
             <div className="page-header__logo">
               <span className="logo">
                 <Link to="/">
-                  <FaReact className="rotate icon-react" /> Ecommerce
+                  <FaReact className="rotate icon-react" /> BOOKSHOP
                 </Link>
               </span>
               {/* <input
@@ -231,7 +231,7 @@ const Header = ({
                 // className="input-search"
                 placeholder="Bạn tìm gì hôm nay..."
                 allowClear
-                enterButton="Search"
+                enterButton="Tìm kiếm"
                 loading={isLoadingSearch}
                 size="large"
                 // onSearch={onSearch}

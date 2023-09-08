@@ -9,27 +9,27 @@ const Footer = () => {
     <footer>
       <div className="footer-container">
         <div className="footer-info">
-          <h3>ECOMMERCE - SÁCH GÌ CŨNG CÓ, MUA HẾT Ở ECOMMERCE</h3>
+          <h3>BOOKSHOP - SÁCH GÌ CŨNG CÓ, MUA HẾT Ở BOOKSHOP</h3>
           <p>
-            Ecommerce - website mua sắm trực tuyến thú vị, tin cậy, an toàn và
-            miễn phí! Ecommerce là nền tảng giao dịch trực tuyến hàng đầu ở Đông
+            Book Shop - website mua sắm trực tuyến thú vị, tin cậy, an toàn và
+            miễn phí! Book Shop là nền tảng giao dịch trực tuyến hàng đầu ở Đông
             Nam Á, có trụ sở chính ở Việt Nam, đã có mặt ở khắp các khu vực
             Singapore, Malaysia, Indonesia, Thái Lan, Philippines, Đài Loan,
-            Brazil, México & Colombia. Với sự đảm bảo của Ecommerce, bạn sẽ mua
+            Brazil, México & Colombia. Với sự đảm bảo của Book Shop, bạn sẽ mua
             sách trực tuyến an tâm và nhanh chóng hơn bao giờ hết!
           </p>
           <h4>MUA SẮM VÀ BÁN HÀNG ONLINE ĐƠN GIẢN, NHANH CHÓNG VÀ AN TOÀN</h4>
           <p>
-            Nếu bạn đang tìm kiếm một trang web để mua sách trực tuyến thì
-            Ecommerce là một sự lựa chọn tuyệt vời dành cho bạn. Ecommerce là
-            trang thương mại điện tử cho phép người mua và người bán tương tác
-            và trao đổi dễ dàng thông tin về sản phẩm. <br />
-            Do đó, việc mua bán trên Ecommerce trở nên nhanh chóng và đơn giản
+            Nếu bạn đang tìm kiếm một trang web để mua sách trực tuyến thì Book
+            Shop là một sự lựa chọn tuyệt vời dành cho bạn. Book Shop là trang
+            thương mại điện tử cho phép người mua và người bán tương tác và trao
+            đổi dễ dàng thông tin về sản phẩm. <br />
+            Do đó, việc mua bán trên Book Shop trở nên nhanh chóng và đơn giản
             hơn. Bạn có thể trò chuyện trực tiếp với nhà bán hàng để hỏi trực
             tiếp về mặt hàng cần mua. Còn nếu bạn muốn tìm mua những dòng sản
-            phẩm chính hãng, uy tín, Ecommerce chính là sự lựa chọn lí tưởng
+            phẩm chính hãng, uy tín, Book Shop chính là sự lựa chọn lí tưởng
             dành cho bạn. Để bạn có thể dễ dàng khi tìm hiểu và sử dụng sản
-            phẩm, Ecommerce - thông tin chính thức của Ecommerce - sẽ giúp bạn
+            phẩm, Book Shop - thông tin chính thức của Book Shop - sẽ giúp bạn
             có thể tìm được cho mình các kiến thức về xu hướng thời trang,
             review công nghệ, mẹo làm đẹp, tin tức tiêu dùng và deal giá tốt bất
             ngờ.
@@ -52,7 +52,10 @@ const Footer = () => {
             </p>
             <p>
               <BsTelephoneForward />
-              <span>0335.269.723</span>
+
+              <Link to="tel:0335269723" target="blank">
+                <span>0335.269.723</span>
+              </Link>
             </p>
           </div>
           <div className="card card-info">
