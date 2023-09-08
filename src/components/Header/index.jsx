@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaReact } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
-import { VscSearchFuzzy } from "react-icons/vsc";
 import { FrownOutlined } from "@ant-design/icons";
 import {
   Divider,
@@ -22,10 +21,9 @@ import { useNavigate } from "react-router";
 
 import { callFetchListBook, callLogout } from "../../services/api";
 import { doLogoutAction } from "../../redux/account/accountSlice";
+import ManagerAccount from "../Account/ManagerAccount";
 
 import "./header.scss";
-import ManagerAccount from "../Account/managerAccount";
-import useDeBounce from "../../Hooks/useDeBounce";
 
 const Header = ({
   searchTerm,
