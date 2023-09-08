@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-**_ Base React Test Fresher _**
+**_ BookShop _**
 =======
-*** Base React Test Fresher ***
+*** BookShop ***
 >>>>>>> 94c541513e6d5218aea9ed4fac7d6f7b8900e1ee
 
 - React 18
