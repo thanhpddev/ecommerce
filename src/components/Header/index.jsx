@@ -222,19 +222,13 @@ const Header = ({
                   <FaReact className="rotate icon-react" /> BOOKSHOP
                 </Link>
               </span>
-              {/* <input
-                className="input-search"
-                type={"text"}
-                placeholder="Bạn tìm gì hôm nay"
-              /> */}
+
               <Search
-                // className="input-search"
                 placeholder="Bạn tìm gì hôm nay..."
                 allowClear
                 enterButton="Tìm kiếm"
                 loading={isLoadingSearch}
                 size="large"
-                // onSearch={onSearch}
                 onChange={handleSearch}
                 value={searchTerm}
               />
